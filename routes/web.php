@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\StudentDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RuanganController;
@@ -35,6 +36,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
 
+    // Dashboard Mahasiswa
+    Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
+
     // --- Manajemen Ruangan (Admin) ---
     Route::get('/admin/ruangan', [RuanganController::class, 'index'])->name('ruangan.index');
     Route::get('/admin/ruangan/create', [RuanganController::class, 'create'])->name('ruangan.create');
@@ -48,5 +52,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/ruangan/{id_ruangan}', [BookingController::class, 'create'])->name('booking.create');
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
     Route::get('/booking/saya', [BookingController::class, 'myBookings'])->name('booking.my');
+    Route::get('/booking/history', [BookingController::class, 'history'])->name('booking.history');
 });
 

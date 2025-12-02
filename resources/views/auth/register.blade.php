@@ -149,6 +149,9 @@
                            autofocus
                            class="form-control @error('name') is-invalid @enderror"
                            placeholder="Nama lengkap sesuai data kampus">
+                    @error('name')
+                        <span class="invalid-feedback d-block" style="font-size:.85rem;">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 {{-- Email kampus --}}
@@ -161,18 +164,6 @@
                            required
                            class="form-control @error('email') is-invalid @enderror"
                            placeholder="nama@kampus.ac.id">
-                </div>
-
-                {{-- NIM / NIP --}}
-                <div class="mb-3">
-                    <label for="nim_nip" class="form-label">NIM / NIP</label>
-                    <input id="nim_nip"
-                           type="text"
-                           name="nim_nip"
-                           value="{{ old('nim_nip') }}"
-                           required
-                           class="form-control @error('nim_nip') is-invalid @enderror"
-                           placeholder="Masukkan NIM (mahasiswa) atau NIP (dosen)">
                 </div>
 
                 {{-- Role --}}

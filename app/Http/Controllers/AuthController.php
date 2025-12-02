@@ -17,18 +17,16 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validated = $request->validate([
-            'nama'     => 'required|string|max:100',
+            'name'     => 'required|string|max:150',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'nim_nip'  => 'nullable|string|max:30',
             'role'     => 'required|in:mahasiswa,dosen', // admin di-set manual dari DB
         ]);
 
         $user = User::create([
-            'nama'     => $validated['nama'],
+            'nama'     => $validated['name'],
             'email'    => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'nim_nip'  => $validated['nim_nip'] ?? null,
             'role'     => $validated['role'],
         ]);
 

@@ -121,6 +121,13 @@
             radial-gradient(circle at 90% 120%, rgba(56,189,248,.7), transparent 65%),
             #020617;
     }
+    .team-avatar-core img {
+        width:100%;
+        height:100%;
+        border-radius:999px;
+        object-fit:cover;
+        display:block;
+    }
 
     /* Teks kartu */
     .team-name {
@@ -197,7 +204,9 @@
             <div class="team-card-inner">
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
-                        <div class="team-avatar-core"></div>
+                        <div class="team-avatar-core">
+                            <img src="{{ asset('images/team1.jpg') }}" alt="Frendly Great" onerror="this.style.display='none'">
+                        </div>
                     </div>
                 </div>
                 <div class="team-name">Frendly Great</div>
@@ -209,7 +218,7 @@
                     <span class="team-meta-label">NIM</span>
                     <span>10123381</span>
                     <span class="team-meta-label mt-2">Kelas</span>
-                    <span>IF-2A</span>
+                    <span>IF-9</span>
                 </div>
             </div>
         </div>
@@ -219,7 +228,9 @@
             <div class="team-card-inner">
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
-                        <div class="team-avatar-core"></div>
+                        <div class="team-avatar-core">
+                            <img src="{{ asset('images/team2.jpg') }}" alt="Nama Anggota 2" onerror="this.style.display='none'">
+                        </div>
                     </div>
                 </div>
                 <div class="team-name">Nama Anggota 2</div>
@@ -241,19 +252,21 @@
             <div class="team-card-inner">
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
-                        <div class="team-avatar-core"></div>
+                        <div class="team-avatar-core">
+                            <img src="{{ asset('images/team3.jpg') }}" alt="Bhadriko Theo Pramudya" onerror="this.style.display='none'">
+                        </div>
                     </div>
                 </div>
-                <div class="team-name">Nama Anggota 3</div>
+                <div class="team-name">Bhadriko Theo Pramudya</div>
                 <div class="team-role">Frontend Developer</div>
 
                 <div class="team-divider"></div>
 
                 <div class="team-meta">
                     <span class="team-meta-label">NIM</span>
-                    <span>1012xxxx</span>
+                    <span>10123375</span>
                     <span class="team-meta-label mt-2">Kelas</span>
-                    <span>IF-2A</span>
+                    <span>IF-9</span>
                 </div>
             </div>
         </div>
@@ -263,7 +276,9 @@
             <div class="team-card-inner">
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
-                        <div class="team-avatar-core"></div>
+                        <div class="team-avatar-core">
+                            <img src="{{ asset('images/team4.jpg') }}" alt="Nama Anggota 4" onerror="this.style.display='none'">
+                        </div>
                     </div>
                 </div>
                 <div class="team-name">Nama Anggota 4</div>
@@ -285,7 +300,9 @@
             <div class="team-card-inner">
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
-                        <div class="team-avatar-core"></div>
+                        <div class="team-avatar-core">
+                            <img src="{{ asset('images/team5.jpg') }}" alt="Nama Anggota 5" onerror="this.style.display='none'">
+                        </div>
                     </div>
                 </div>
                 <div class="team-name">Nama Anggota 5</div>
