@@ -205,11 +205,11 @@
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
                         <div class="team-avatar-core">
-                            <img src="{{ asset('images/team1.jpg') }}" alt="Frendly Great" onerror="this.style.display='none'">
+                            <img src="{{ asset('images/team1.jpg') }}" alt="Frendly Great Cornelius Siahaan" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
-                <div class="team-name">Frendly Great</div>
+                <div class="team-name">Frendly Great Cornelius Siahaan</div>
                 <div class="team-role">Project Manager</div>
 
                 <div class="team-divider"></div>
@@ -229,20 +229,20 @@
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
                         <div class="team-avatar-core">
-                            <img src="{{ asset('images/team2.jpg') }}" alt="Nama Anggota 2" onerror="this.style.display='none'">
+                            <img src="{{ asset('images/team2.jpg') }}" alt="Alfansyah Rizky Wijaya" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
-                <div class="team-name">Nama Anggota 2</div>
+                <div class="team-name">Alfansyah Rizky Wijaya</div>
                 <div class="team-role">Backend Developer</div>
 
                 <div class="team-divider"></div>
 
                 <div class="team-meta">
                     <span class="team-meta-label">NIM</span>
-                    <span>1012xxxx</span>
+                    <span>10123364</span>
                     <span class="team-meta-label mt-2">Kelas</span>
-                    <span>IF-2A</span>
+                    <span>IF-9</span>
                 </div>
             </div>
         </div>
@@ -277,20 +277,20 @@
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
                         <div class="team-avatar-core">
-                            <img src="{{ asset('images/team4.jpg') }}" alt="Nama Anggota 4" onerror="this.style.display='none'">
+                            <img src="{{ asset('images/team4.jpg') }}" alt="Revana Yusuf Maulid" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
-                <div class="team-name">Nama Anggota 4</div>
+                <div class="team-name">Revana Yusuf Maulid</div>
                 <div class="team-role">UI/UX Designer</div>
 
                 <div class="team-divider"></div>
 
                 <div class="team-meta">
                     <span class="team-meta-label">NIM</span>
-                    <span>1012xxxx</span>
+                    <span>10123355</span>
                     <span class="team-meta-label mt-2">Kelas</span>
-                    <span>IF-2A</span>
+                    <span>IF-9</span>
                 </div>
             </div>
         </div>
@@ -301,20 +301,20 @@
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
                         <div class="team-avatar-core">
-                            <img src="{{ asset('images/team5.jpg') }}" alt="Nama Anggota 5" onerror="this.style.display='none'">
+                            <img src="{{ asset('images/team5.jpg') }}" alt="Alfansyah Rizky Wijaya" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
-                <div class="team-name">Nama Anggota 5</div>
+                <div class="team-name">Barka Tirta Rama Abdurrahman</div>
                 <div class="team-role">Quality Assurance</div>
 
                 <div class="team-divider"></div>
 
                 <div class="team-meta">
                     <span class="team-meta-label">NIM</span>
-                    <span>1012xxxx</span>
+                    <span>10123365</span>
                     <span class="team-meta-label mt-2">Kelas</span>
-                    <span>IF-2A</span>
+                    <span>IF-9</span>
                 </div>
             </div>
         </div>

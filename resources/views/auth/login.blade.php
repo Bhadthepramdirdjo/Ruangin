@@ -3,6 +3,9 @@
 @section('title', 'Login - Ruangin.app')
 
 @push('styles')
+{{-- FontAwesome untuk Ikon Mata --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <style>
     .auth-wrapper {
         min-height: calc(100vh - 140px);
@@ -72,14 +75,39 @@
         font-size: .9rem;
     }
 
+    /* Update Style untuk Input dan Input Group agar menyatu */
     .auth-card .form-control {
         background: rgba(15,23,42,0.9);
         border-color: rgba(148,163,184,0.7);
         color: #f9fafb;
     }
 
+    .auth-card .form-control:focus,
+    .auth-card .input-group-text:focus {
+        background: rgba(15,23,42,1);
+        border-color: #818cf8;
+        box-shadow: 0 0 0 0.25rem rgba(129, 140, 248, 0.25);
+    }
+
     .auth-card .form-control::placeholder {
         color: #9ca3af;
+    }
+
+    /* Style khusus untuk Password Group */
+    .password-group .form-control {
+        border-right: none; /* Hilangkan border kanan input */
+    }
+    
+    .password-group .input-group-text {
+        background: rgba(15,23,42,0.9);
+        border-color: rgba(148,163,184,0.7);
+        border-left: none; /* Hilangkan border kiri ikon */
+        color: #9ca3af;
+        cursor: pointer;
+    }
+    
+    .password-group .input-group-text:hover {
+        color: #e5e7eb;
     }
 
     .auth-footer-text {
@@ -155,15 +183,20 @@
                            placeholder="nama@kampus.ac.id">
                 </div>
 
-                {{-- Password --}}
+                {{-- Password dengan Ikon Mata --}}
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input id="password"
-                           type="password"
-                           name="password"
-                           required
-                           class="form-control @error('password') is-invalid @enderror"
-                           placeholder="Masukkan password">
+                    <div class="input-group password-group">
+                        <input id="password"
+                               type="password"
+                               name="password"
+                               required
+                               class="form-control @error('password') is-invalid @enderror"
+                               placeholder="Masukkan password">
+                        <span class="input-group-text" id="togglePassword">
+                            <i class="fa-regular fa-eye" id="iconPassword"></i>
+                        </span>
+                    </div>
                 </div>
 
                 {{-- Remember me + link register --}}
@@ -183,7 +216,7 @@
 
                 {{-- Tombol login --}}
                 <div class="d-grid">
-                    <button type="submit" class="gradient-btn">
+                    <button type="submit" class="gradient-btn" style="background: linear-gradient(to right, #818cf8, #22d3ee); border:none; padding:12px; border-radius:8px; color:white; font-weight:700;">
                         Login
                     </button>
                 </div>
@@ -192,4 +225,26 @@
         </div>
     </div>
 </div>
+
+{{-- Script untuk Toggle Password --}}
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    const icon = document.querySelector('#iconPassword');
+
+    togglePassword.addEventListener('click', function (e) {
+        // Toggle tipe attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        
+        // Toggle ikon mata
+        if (type === 'password') {
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        } else {
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        }
+    });
+</script>
 @endsection
