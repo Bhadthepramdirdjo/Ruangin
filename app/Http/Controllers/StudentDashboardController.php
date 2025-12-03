@@ -12,6 +12,12 @@ class StudentDashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        // Redirect admin ke admin dashboard
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
         $today = Carbon::today();
 
         // 1. RINGKASAN STATUS BOOKING

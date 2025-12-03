@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Booking extends Model
 {
     protected $table = 'booking';
-    public $timestamps = false;
+    public $timestamps = true;
+    const CREATED_AT = 'dibuat';
+    const UPDATED_AT = 'diubah';
 
     protected $fillable = [
         'user_id',

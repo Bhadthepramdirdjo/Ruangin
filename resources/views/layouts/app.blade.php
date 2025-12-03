@@ -24,7 +24,13 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
             margin: 0;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -117,6 +123,7 @@
 
         .page-wrapper {
             padding-block: 2.5rem 3rem;
+            flex: 1;
         }
 
         .card-glass {
@@ -147,7 +154,17 @@
 
         footer {
             border-top: 1px solid rgba(148,163,184,0.3);
-            background: rgba(5,6,24,0.9);
+            background: rgba(5,6,24,0.95);
+            margin-top: auto;
+            padding: 1.5rem 0;
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        footer small {
+            color: #cbd5e1;
+            font-weight: 500;
         }
 
         .fade-in-up {
@@ -271,12 +288,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 </li>
 
                 @auth
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('ruangan.list') }}">Booking</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('booking.my') }}">Booking Saya</a>
-                    </li>
+                    @if(auth()->user()->role !== 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('ruangan.list') }}">Booking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('booking.my') }}">Booking Saya</a>
+                        </li>
+                    @endif
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button"
                            data-bs-toggle="dropdown">
@@ -288,8 +307,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             </li>
                             @if(auth()->user()->role === 'admin')
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('ruangan.index') }}">
-                                        Kelola Ruangan
+                                    <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
+                                        Admin Dashboard
                                     </a>
                                 </li>
                             @endif
@@ -326,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
     @yield('content')
 </main>
 
-<footer class="text-center text-muted py-4">
+<footer class="text-center py-4">
     <small>© {{ date('Y') }} Ruangin.app · Sistem Booking Ruangan Kampus</small>
 </footer>
 

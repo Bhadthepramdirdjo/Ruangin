@@ -79,8 +79,8 @@ class BookingController extends Controller
     // ================== LIHAT DOKUMEN (LAMPIRAN) ==================
     public function showDokumen(Booking $booking)
     {
-        // Opsional: pastikan hanya pemilik booking yang boleh akses
-        if (Auth::check() && $booking->user_id !== Auth::id()) {
+        // Opsional: pastikan hanya pemilik booking atau admin yang boleh akses
+        if (Auth::check() && $booking->user_id !== Auth::id() && auth()->user()->role !== 'admin') {
             abort(403);
         }
 
@@ -103,8 +103,8 @@ class BookingController extends Controller
     // ================== DOWNLOAD DOKUMEN ==================
     public function downloadDokumen(Booking $booking)
     {
-        // Opsional: pastikan hanya pemilik booking yang boleh download
-        if (Auth::check() && $booking->user_id !== Auth::id()) {
+        // Opsional: pastikan hanya pemilik booking atau admin yang boleh download
+        if (Auth::check() && $booking->user_id !== Auth::id() && auth()->user()->role !== 'admin') {
             abort(403);
         }
 

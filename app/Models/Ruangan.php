@@ -9,7 +9,9 @@ class Ruangan extends Model
     protected $table = 'ruangan';
     // actual DB primary key is `id` (from database dump)
     protected $primaryKey = 'id';
-    public $timestamps = false;
+    public $timestamps = true;
+    const CREATED_AT = 'dibuat';
+    const UPDATED_AT = 'diubah';
 
     protected $fillable = [
         // keep DB column names here

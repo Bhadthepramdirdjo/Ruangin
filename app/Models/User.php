@@ -12,8 +12,10 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    // Database table 'users' from uploaded dump does not have timestamps
-    public $timestamps = false;
+    // Timestamps digunakan untuk dibuat & diubah fields
+    public $timestamps = true;
+    const CREATED_AT = 'dibuat';
+    const UPDATED_AT = 'diubah';
 
     /**
      * The attributes that are mass assignable.

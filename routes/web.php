@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\AdminDashboardController;
 
 
 // =====================
@@ -39,14 +40,6 @@ Route::middleware('auth')->group(function () {
     // Dashboard Mahasiswa
     Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
 
-    // --- Manajemen Ruangan (Admin) ---
-    Route::get('/admin/ruangan', [RuanganController::class, 'index'])->name('ruangan.index');
-    Route::get('/admin/ruangan/create', [RuanganController::class, 'create'])->name('ruangan.create');
-    Route::post('/admin/ruangan', [RuanganController::class, 'store'])->name('ruangan.store');
-    Route::get('/admin/ruangan/{id_ruangan}/edit', [RuanganController::class, 'edit'])->name('ruangan.edit');
-    Route::put('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'update'])->name('ruangan.update');
-    Route::delete('/admin/ruangan/{id_ruangan}', [RuanganController::class, 'destroy'])->name('ruangan.destroy');
-
     // --- Booking Ruangan (User) ---
     Route::get('/ruangan', [BookingController::class, 'listRuangan'])->name('ruangan.list');
     Route::get('/booking/ruangan/{id_ruangan}', [BookingController::class, 'create'])->name('booking.create');
@@ -61,5 +54,31 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/{booking}/dokumen/download', [BookingController::class, 'downloadDokumen'])
         ->name('booking.dokumen.download');
 
+});
+
+// =====================
+// ADMIN ROUTES (WAJIB ADMIN)
+// =====================
+
+Route::middleware(['auth', 'is.admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
+
+    // Ruangan management
+    Route::get('/ruangan', [AdminDashboardController::class, 'ruanganIndex'])->name('admin.ruangan.index');
+    Route::get('/ruangan/create', [AdminDashboardController::class, 'ruanganCreate'])->name('admin.ruangan.create');
+    Route::post('/ruangan', [AdminDashboardController::class, 'ruanganStore'])->name('admin.ruangan.store');
+    Route::get('/ruangan/{id}/edit', [AdminDashboardController::class, 'ruanganEdit'])->name('admin.ruangan.edit');
+    Route::put('/ruangan/{id}', [AdminDashboardController::class, 'ruanganUpdate'])->name('admin.ruangan.update');
+    Route::delete('/ruangan/{id}', [AdminDashboardController::class, 'ruanganDelete'])->name('admin.ruangan.destroy');
+
+    // Booking management
+    Route::get('/booking', [AdminDashboardController::class, 'bookingIndex'])->name('admin.booking.index');
+    Route::get('/booking/{id}', [AdminDashboardController::class, 'bookingShow'])->name('admin.booking.show');
+    Route::post('/booking/{id}/approve', [AdminDashboardController::class, 'bookingApprove'])->name('admin.booking.approve');
+    Route::post('/booking/{id}/reject', [AdminDashboardController::class, 'bookingReject'])->name('admin.booking.reject');
+
+    // User role management
+    Route::get('/user', [AdminDashboardController::class, 'userIndex'])->name('admin.user.index');
+    Route::put('/user/{id}/role', [AdminDashboardController::class, 'userUpdateRole'])->name('admin.user.update-role');
 });
 
