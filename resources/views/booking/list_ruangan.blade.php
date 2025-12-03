@@ -14,8 +14,14 @@
     .ruangan-title {
         font-size: 2rem;
         font-weight: 700;
+        color: #e5e7eb; /* Warna putih standar agar emoji tetap berwarna asli */
+    }
+
+    /* Class baru khusus untuk efek gradasi teks */
+    .text-gradient {
         background: linear-gradient(120deg, #e5e7eb, #c4b5fd, #22d3ee);
         -webkit-background-clip: text;
+        background-clip: text;
         color: transparent;
     }
 
@@ -215,7 +221,13 @@
         <a href="{{ route('dashboard') }}" class="back-btn">
             <span>←</span> Kembali ke Dashboard
         </a>
-        <h1 class="ruangan-title">📚 Daftar Ruangan Tersedia</h1>
+        
+        {{-- BAGIAN INI YANG DIUBAH: --}}
+        {{-- Emoji "📚" dipisah dari class text-gradient --}}
+        <h1 class="ruangan-title">
+            📚 <span class="text-gradient">Daftar Ruangan Tersedia</span>
+        </h1>
+
         <p style="color: #cbd5f5; margin-top: 0.5rem;">Pilih ruangan yang ingin Anda pesan</p>
     </div>
 </div>

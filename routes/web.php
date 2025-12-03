@@ -53,5 +53,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
     Route::get('/booking/saya', [BookingController::class, 'myBookings'])->name('booking.my');
     Route::get('/booking/history', [BookingController::class, 'history'])->name('booking.history');
+
+        // Dokumen booking (lihat & download)
+    Route::get('/booking/{booking}/dokumen', [BookingController::class, 'showDokumen'])
+        ->name('booking.dokumen.show');
+
+    Route::get('/booking/{booking}/dokumen/download', [BookingController::class, 'downloadDokumen'])
+        ->name('booking.dokumen.download');
+
 });
 

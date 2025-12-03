@@ -4,98 +4,308 @@
 
 @push('styles')
 <style>
-    .booking-page { padding: 2.5rem 0; }
-    .page-title { font-size: 2.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 1rem; }
+    .page-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #f9fafb;
+    }
 
-    .alert-success {
-        background: linear-gradient(90deg, rgba(99,102,241,0.08), rgba(139,92,246,0.03));
-        border: 1px solid rgba(148,163,184,0.12);
-        color: #e6eef8;
-        padding: 0.85rem 1rem;
-        border-radius: 8px;
-        margin-bottom: 1rem;
+    .booking-alert {
+        border-radius: 14px;
+        padding: .85rem 1rem;
+        background: rgba(16, 185, 129, .14);
+        border: 1px solid rgba(16, 185, 129, .55);
+        color: #d1fae5;
+        font-size: .9rem;
+        margin-bottom: 1.5rem;
     }
 
     .booking-card {
-        background: #ffffff;
-        color: #0f172a;
-        border-radius: 10px;
-        padding: 1.25rem 1.5rem;
-        box-shadow: 0 12px 30px rgba(2,6,23,0.45);
+        position: relative;
         display: flex;
         justify-content: space-between;
-        gap: 1rem;
         align-items: flex-start;
+        gap: 1.25rem;
+        border-radius: 24px;
+        padding: 1.5rem 1.8rem 1.4rem;
+        margin-bottom: 1.4rem;
+        background: radial-gradient(circle at top left,
+                    rgba(148, 163, 184, .25), transparent 55%),
+                    rgba(15, 23, 42, .97);
+        border: 1px solid rgba(148, 163, 184, .35);
+        box-shadow: 0 20px 50px rgba(15, 23, 42, .95);
+        overflow: hidden;
     }
 
-    .booking-left { flex: 1 1 auto; }
-    .booking-right { width: 180px; text-align: right; }
+    .booking-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 4px;
+        border-radius: 24px;
+        background: linear-gradient(180deg, #38bdf8, #6366f1);
+    }
 
-    .booking-ruangan { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .booking-meta { color: #64748b; font-size: 0.95rem; margin-bottom: 0.4rem; }
+    /* Variasi warna per status */
+    .booking-card--pending::before {
+        background: linear-gradient(180deg, #facc15, #f97316);
+    }
 
-    .status-badge { display: inline-block; padding: 6px 10px; border-radius: 999px; font-weight: 700; font-size: 0.85rem; }
-    .status-pending { background: rgba(250,204,21,0.12); color: #b45309; }
-    .status-disetujui { background: rgba(16,185,129,0.08); color: #065f46; }
-    .status-ditolak { background: rgba(239,68,68,0.08); color: #7f1d1d; }
+    .booking-card--approved::before {
+        background: linear-gradient(180deg, #22c55e, #16a34a);
+    }
 
-    .booking-actions a { display:inline-block; margin-left:8px; color:#475569; font-weight:600; text-decoration:none }
-    .booking-actions a:hover { text-decoration:underline }
+    .booking-card--rejected::before {
+        background: linear-gradient(180deg, #f97373, #ef4444);
+    }
 
-    .empty-box { background: rgba(255,255,255,0.03); border-radius:8px; padding:2rem; color:#cbd5f5; text-align:center; }
+    .booking-main {
+        margin-left: 0.9rem; /* geser dikit dari garis kiri */
+        flex: 1;
+    }
+
+    .booking-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-bottom: .75rem;
+    }
+
+    .booking-meta-row {
+        font-size: .92rem;
+        color: #e5e7eb;
+        margin-bottom: .25rem;
+    }
+
+    .booking-meta-row strong {
+        font-weight: 600;
+        color: #e5e7eb;
+        margin-right: .35rem;
+    }
+
+    .booking-meta-row span.value {
+        color: #e5e7eb;
+    }
+
+    .booking-purpose {
+        margin-top: .45rem;
+        font-size: .92rem;
+        color: #cbd5f5;
+    }
+
+    .booking-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .6rem;
+        margin-top: 1rem;
+    }
+
+    .booking-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        border-radius: 999px;
+        font-size: .87rem;
+        font-weight: 500;
+        padding: .48rem 1.1rem;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition: all .18s ease-out;
+        cursor: pointer;
+    }
+
+    .booking-btn .icon {
+        font-size: .95rem;
+        line-height: 1;
+    }
+
+    .booking-btn-ghost {
+        background: rgba(15, 23, 42, .9);
+        border-color: rgba(148, 163, 184, .6);
+        color: #e5e7eb;
+    }
+
+    .booking-btn-ghost:hover {
+        background: rgba(30, 64, 175, .75);
+        border-color: rgba(129, 140, 248, 1);
+        color: #e5e7eb;
+        text-decoration: none;
+    }
+
+    .booking-btn-primary {
+        background: linear-gradient(120deg, #0ea5e9, #22c1f1);
+        color: #0b1120;
+        border: none;
+        box-shadow: 0 12px 30px rgba(56, 189, 248, .55);
+    }
+
+    .booking-btn-primary:hover {
+        filter: brightness(1.06);
+        transform: translateY(-1px);
+        text-decoration: none;
+    }
+
+    .booking-side {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: .4rem;
+        min-width: 160px;
+        font-size: .85rem;
+    }
+
+    .booking-status-badge {
+        padding: .25rem .8rem;
+        border-radius: 999px;
+        font-size: .8rem;
+        font-weight: 600;
+        letter-spacing: .02em;
+        text-transform: capitalize;
+    }
+
+    .booking-status-badge--pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .booking-status-badge--approved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .booking-status-badge--rejected {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .booking-created {
+        color: #cbd5f5;
+        opacity: .9;
+    }
+
+    .booking-created-label {
+        opacity: .8;
+        margin-right: .25rem;
+    }
+
+    .empty-state {
+        border-radius: 20px;
+        padding: 1.5rem 1.6rem;
+        background: rgba(15, 23, 42, .96);
+        border: 1px dashed rgba(148, 163, 184, .6);
+        color: #cbd5f5;
+        font-size: .92rem;
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .booking-card {
+            flex-direction: column;
+        }
+
+        .booking-side {
+            align-items: flex-start;
+            margin-left: 0.9rem;
+        }
+    }
 </style>
 @endpush
 
 @section('content')
-<div class="container booking-page">
-    <h1 class="page-title">Booking Saya</h1>
+<div class="container py-5">
 
-    @if ($message = Session::get('success'))
-        <div class="alert-success">
-            {{ $message }}
+    <h1 class="page-title mb-3">Booking Saya</h1>
+
+    @if (session('success'))
+        <div class="booking-alert">
+            {{ session('success') }}
         </div>
     @endif
 
-    @if ($bookings->count() > 0)
-        <div class="grid grid-cols-1 gap-6">
-            @foreach ($bookings as $booking)
-                @php
-                    $status = strtolower($booking->status ?? 'pending');
-                @endphp
-                <div class="booking-card" role="article">
-                    <div class="booking-left">
-                        <div class="booking-ruangan">{{ $booking->ruangan->nama_ruang ?? 'Ruangan Tidak Ditemukan' }}</div>
-                        <div class="booking-meta"><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($booking->tanggal)->format('d-m-Y') }}</div>
-                        <div class="booking-meta"><strong>Jam:</strong> {{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->jam_mulai)->format('H:i') ?? $booking->jam_mulai }} - {{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->jam_selesai)->format('H:i') ?? $booking->jam_selesai }}</div>
-                        <div style="margin-top:.5rem;" class="booking-meta"><strong>Keperluan:</strong> {{ $booking->keperluan }}</div>
-                        @if (!empty($booking->dokumen))
-                            <div style="margin-top:.6rem;">
-                                <a href="{{ asset('storage/' . $booking->dokumen) }}" target="_blank" class="booking-actions">📎 Lihat Lampiran</a>
-                                <a href="{{ asset('storage/' . $booking->dokumen) }}" download class="booking-actions">⬇️ Unduh</a>
-                            </div>
-                        @endif
-                    </div>
+    @forelse ($bookings as $booking)
+        @php
+            $status = strtolower($booking->status);
+            $cardClass  = 'booking-card booking-card--pending';
+            $badgeClass = 'booking-status-badge booking-status-badge--pending';
 
-                    <div class="booking-right">
-                        <div>
-                            @if ($status === 'pending')
-                                <span class="status-badge status-pending">Pending</span>
-                            @elseif ($status === 'disetujui' || $status === 'approved')
-                                <span class="status-badge status-disetujui">Disetujui</span>
-                            @else
-                                <span class="status-badge status-ditolak">{{ ucfirst($status) }}</span>
-                            @endif
-                        </div>
-                        <div style="margin-top:12px; color:#94a3b8">Dibuat: {{ \Carbon\Carbon::parse($booking->dibuat)->format('d-m-Y H:i') }}</div>
-                    </div>
+            if (in_array($status, ['disetujui', 'approved'])) {
+                $cardClass  = 'booking-card booking-card--approved';
+                $badgeClass = 'booking-status-badge booking-status-badge--approved';
+            } elseif (in_array($status, ['ditolak', 'rejected'])) {
+                $cardClass  = 'booking-card booking-card--rejected';
+                $badgeClass = 'booking-status-badge booking-status-badge--rejected';
+            }
+
+            $createdAt = $booking->dibuat
+                ? \Carbon\Carbon::parse($booking->dibuat)->format('d-m-Y H:i')
+                : ($booking->created_at
+                    ? \Carbon\Carbon::parse($booking->created_at)->format('d-m-Y H:i')
+                    : '-');
+        @endphp
+
+        <div class="{{ $cardClass }}">
+            {{-- Kiri: Detail utama --}}
+            <div class="booking-main">
+                <div class="booking-title">
+                    {{ $booking->ruangan->nama_ruang ?? 'Ruangan' }}
                 </div>
-            @endforeach
+
+                <div class="booking-meta-row">
+                    <strong>Tanggal:</strong>
+                    <span class="value">
+                        {{ \Carbon\Carbon::parse($booking->tanggal)->format('d-m-Y') }}
+                    </span>
+                </div>
+
+                <div class="booking-meta-row">
+                    <strong>Jam:</strong>
+                    <span class="value">
+                        {{ substr($booking->jam_mulai,0,5) }} - {{ substr($booking->jam_selesai,0,5) }}
+                    </span>
+                </div>
+
+                <div class="booking-purpose">
+                    <strong>Keperluan:</strong>
+                    <span class="value">{{ $booking->keperluan }}</span>
+                </div>
+
+                @if (!empty($booking->dokumen))
+                    <div class="booking-actions">
+                        {{-- Lihat lampiran (tab baru) --}}
+                        <a href="{{ route('booking.dokumen.show', $booking->id) }}"
+                           target="_blank"
+                           class="booking-btn booking-btn-ghost">
+                            <span class="icon">📎</span>
+                            <span>Lihat Lampiran</span>
+                        </a>
+
+                        {{-- Unduh dokumen --}}
+                        <a href="{{ route('booking.dokumen.download', $booking->id) }}"
+                           class="booking-btn booking-btn-primary">
+                            <span class="icon">⬇️</span>
+                            <span>Unduh</span>
+                        </a>
+                    </div>
+                @endif
+            </div>
+
+            {{-- Kanan: Status & tanggal dibuat --}}
+            <div class="booking-side">
+                <span class="{{ $badgeClass }}">
+                    {{ ucfirst($booking->status) }}
+                </span>
+                <div class="booking-created">
+                    <span class="booking-created-label">Dibuat:</span>
+                    <span>{{ $createdAt }}</span>
+                </div>
+            </div>
         </div>
-    @else
-        <div class="empty-box">
-            <p class="mb-4">Anda belum memiliki booking</p>
-            <a href="{{ route('ruangan.list') }}" class="inline-block text-white font-semibold py-2 px-4 rounded" style="background: linear-gradient(135deg,#6366f1,#22d3ee);">Pesan Ruangan Sekarang</a>
+    @empty
+        <div class="empty-state">
+            Belum ada booking yang Anda buat.  
+            Silakan gunakan menu <strong>Booking</strong> untuk mengajukan peminjaman ruangan.
         </div>
-    @endif
+    @endforelse
 </div>
 @endsection

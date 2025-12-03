@@ -14,8 +14,14 @@
     .greeting-text {
         font-size: 1.8rem;
         font-weight: 700;
+        color: #e5e7eb; /* Warna default */
+    }
+
+    /* Class baru khusus untuk efek warna gradasi pada teks */
+    .text-gradient {
         background: linear-gradient(120deg, #e5e7eb, #c4b5fd, #22d3ee);
         -webkit-background-clip: text;
+        background-clip: text;
         color: transparent;
     }
 
@@ -40,6 +46,7 @@
         font-weight: 800;
         background: linear-gradient(120deg, #818cf8, #22d3ee);
         -webkit-background-clip: text;
+        background-clip: text;
         color: transparent;
     }
 
@@ -230,7 +237,9 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1 class="greeting-text">Selamat datang, {{ explode(' ', $user->nama)[0] }}! 👋</h1>
+                <h1 class="greeting-text">
+                    Selamat datang, <span class="text-gradient">{{ explode(' ', $user->nama)[0] }}!</span> 👋
+                </h1>
                 <p style="color: #cbd5f5; margin-top: 0.5rem;">{{ Carbon\Carbon::now()->isoFormat('dddd, D MMMM YYYY') }}</p>
             </div>
             <div class="col-md-4 text-end">
@@ -243,7 +252,6 @@
 </div>
 
 <div class="container pb-5">
-    <!-- NOTIFIKASI PENTING -->
     @if($notifications && count($notifications) > 0)
     <div class="row mb-4">
         <div class="col-12">
@@ -256,7 +264,6 @@
     </div>
     @endif
 
-    <!-- 1. RINGKASAN STATUS BOOKING -->
     <div class="row mb-4">
         <div class="col-md-3 col-sm-6 mb-3">
             <div class="stat-card">
@@ -284,7 +291,6 @@
         </div>
     </div>
 
-    <!-- 2. TOMBOL AKSI CEPAT -->
     <div class="row mb-4">
         <div class="col-12">
             <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
@@ -302,9 +308,7 @@
     </div>
 
     <div class="row">
-        <!-- KOLOM KIRI: BOOKING & JADWAL -->
         <div class="col-lg-7">
-            <!-- BOOKING PENDING -->
             @if($bookingsPending && count($bookingsPending) > 0)
             <div class="mb-5">
                 <h2 class="section-title">⏳ Booking Menunggu Persetujuan</h2>
@@ -321,7 +325,6 @@
             </div>
             @endif
 
-            <!-- BOOKING HARI INI -->
             @if($bookingsToday && count($bookingsToday) > 0)
             <div class="mb-5">
                 <h2 class="section-title">📅 Booking Hari Ini</h2>
@@ -347,7 +350,6 @@
             </div>
             @endif
 
-            <!-- JADWAL TERDEKAT -->
             @if($upcomingBookings && count($upcomingBookings) > 0)
             <div class="mb-5">
                 <h2 class="section-title">📆 Jadwal Terdekat</h2>
@@ -365,9 +367,7 @@
             @endif
         </div>
 
-        <!-- KOLOM KANAN: SHORTCUT & INFO -->
         <div class="col-lg-5">
-            <!-- RUANGAN SERING DIPAKAI -->
             @if($frequentRoomDetails && count($frequentRoomDetails) > 0)
             <div class="mb-5">
                 <h2 class="section-title">⭐ Ruangan Favorit</h2>
@@ -384,7 +384,6 @@
             </div>
             @endif
 
-            <!-- RIWAYAT SINGKAT -->
             <div class="mb-5">
                 <h2 class="section-title">📜 Riwayat Terbaru</h2>
                 @if($recentBookings && count($recentBookings) > 0)
@@ -413,7 +412,6 @@
                 @endif
             </div>
 
-            <!-- QUICK INFO RULES -->
             <div class="rules-box">
                 <strong style="color: #e5e7eb; display: block; margin-bottom: 0.75rem;">📋 Info Penting</strong>
                 <ul>
