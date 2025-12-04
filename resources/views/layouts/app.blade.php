@@ -292,9 +292,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('ruangan.list') }}">Booking</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('booking.my') }}">Booking Saya</a>
-                        </li>
                     @endif
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button"
