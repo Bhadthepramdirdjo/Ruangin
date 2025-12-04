@@ -301,7 +301,7 @@
                 <div class="team-avatar-wrap">
                     <div class="team-avatar-ring">
                         <div class="team-avatar-core">
-                            <img src="{{ asset('images/team5.jpg') }}" alt="Alfansyah Rizky Wijaya" onerror="this.style.display='none'">
+                            <img src="{{ asset('images/team5.jpg') }}" alt="Barka Tirta Rama Abdurrahman" onerror="this.style.display='none'">
                         </div>
                     </div>
                 </div>
