@@ -25,6 +25,9 @@ class ProfileController extends Controller
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'avatar' => ['nullable', 'image', 'max:2048'],
             'password' => ['nullable', 'min:8', 'confirmed'], // confirmed artinya butuh field password_confirmation
+        ], [
+            'avatar.max' => 'File terlalu besar. Maksimal ukuran adalah 2MB.',
+            'avatar.image' => 'Tipe file tidak valid. Silakan unggah gambar (jpg, png, gif, dll).',
         ]);
 
         // Update Data Diri
@@ -40,7 +43,7 @@ class ProfileController extends Controller
 
         // 2. Simpan foto baru ke folder 'avatars' di public disk
         $path = $request->file('avatar')->store('avatars', 'public');
-        
+
         // 3. Simpan path-nya ke database
         $user->avatar = $path;
         }

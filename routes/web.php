@@ -12,7 +12,7 @@ use App\Http\Controllers\ProfileController;
 // =====================
 // HALAMAN UMUM (BOLEH TANPA LOGIN)
 // =====================
- 
+
 // Landing page
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
@@ -85,5 +85,7 @@ Route::middleware(['auth', 'is.admin'])->prefix('admin')->group(function () {
     // User role management
     Route::get('/user', [AdminDashboardController::class, 'userIndex'])->name('admin.user.index');
     Route::put('/user/{id}/role', [AdminDashboardController::class, 'userUpdateRole'])->name('admin.user.update-role');
+    // Verify/unverify dosen accounts
+    Route::put('/user/{id}/verify', [AdminDashboardController::class, 'userVerify'])->name('admin.user.verify');
 });
 

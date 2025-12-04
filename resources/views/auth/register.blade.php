@@ -127,11 +127,9 @@
 
             @if ($errors->any())
                 <div class="alert alert-danger py-2">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li style="font-size:.85rem;">{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                    @foreach ($errors->all() as $error)
+                        <div style="font-size:.85rem;">{{ $error }}</div>
+                    @endforeach
                 </div>
             @endif
 

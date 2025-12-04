@@ -218,8 +218,8 @@
     <!-- Search Form -->
     <div style="margin-bottom: 2rem;">
         <form method="GET" action="{{ route('admin.user.index') }}" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <input type="text" name="search" placeholder="Cari berdasarkan nama..." 
-                   value="{{ request('search') }}" 
+            <input type="text" name="search" placeholder="Cari berdasarkan nama..."
+                   value="{{ request('search') }}"
                    style="flex: 1; min-width: 250px; padding: 0.6rem 1rem; background: rgba(30,41,59,0.5); border: 1px solid rgba(148,163,184,0.3); border-radius: 6px; color: #e5e7eb; font-size: 0.9rem;">
             <button type="submit" class="btn btn-primary" style="padding: 0.6rem 1.5rem;">🔍 Cari</button>
             @if(request('search'))
@@ -238,6 +238,7 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role Saat Ini</th>
+                            <th>Verifikasi</th>
                             <th>Ubah Role</th>
                         </tr>
                     </thead>
@@ -247,20 +248,20 @@
                                 <td>
                                     <div class="user-info">
                                         @if($user->avatar)
-                                            <img src="{{ asset('storage/' . $user->avatar) }}" 
+                                            <img src="{{ asset('storage/' . $user->avatar) }}"
                                                 alt="Avatar" class="table-avatar">
                                         @else
                                             <div class="table-avatar-fallback">
                                                 {{ substr($user->nama, 0, 1) }}
                                             </div>
                                         @endif
-                                        
+
                                         <strong>{{ $user->nama }}</strong>
                                     </div>
                                 </td>
-                                
+
                                 <td>{{ $user->email }}</td>
-                                
+
                                 <td>
                                     @if ($user->role === 'mahasiswa')
                                         <span class="badge badge-mahasiswa">Mahasiswa</span>
@@ -268,7 +269,29 @@
                                         <span class="badge badge-dosen">Dosen</span>
                                     @endif
                                 </td>
-                                
+
+                                <td>
+                                    @if ($user->role === 'dosen')
+                                        @if ($user->is_verified)
+                                            <form action="{{ route('admin.user.verify', $user->id) }}" method="POST" style="display:inline-block;">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="is_verified" value="0">
+                                                <button class="btn" style="background: rgba(99,102,241,0.12);">Terverifikasi</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('admin.user.verify', $user->id) }}" method="POST" style="display:inline-block;">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="is_verified" value="1">
+                                                <button class="btn btn-primary">Verifikasi</button>
+                                            </form>
+                                        @endif
+                                    @else
+                                        <span style="color: #94a3b8;">-</span>
+                                    @endif
+                                </td>
+
                                 <td>
                                     <form action="{{ route('admin.user.update-role', $user->id) }}" method="POST" style="display: inline;">
                                         @csrf

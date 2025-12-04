@@ -182,12 +182,12 @@ class AdminDashboardController extends Controller
     public function userIndex(Request $request)
     {
         $query = User::where('role', '!=', 'admin');
-        
+
         // Search by name
         if ($request->filled('search')) {
             $query->where('nama', 'like', '%' . $request->search . '%');
         }
-        
+
         $users = $query->paginate(10);
         return view('admin.user.index', compact('users'));
     }
@@ -203,5 +203,23 @@ class AdminDashboardController extends Controller
         $user->update($validated);
 
         return redirect()->route('admin.user.index')->with('success', 'Role user berhasil diperbarui.');
+    }
+
+    /**
+     * Verify or unverify a user (used for dosen verification).
+     */
+    public function userVerify(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'is_verified' => 'required|boolean',
+        ]);
+
+        $user->is_verified = $validated['is_verified'];
+        $user->save();
+
+        $msg = $user->is_verified ? 'Akun berhasil diverifikasi.' : 'Akun diverifikasi dibatalkan.';
+        return redirect()->route('admin.user.index')->with('success', $msg);
     }
 }

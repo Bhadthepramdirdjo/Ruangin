@@ -36,7 +36,7 @@
 
     /* Override autofill browser style agar tidak jadi putih */
     .form-control-dark:-webkit-autofill,
-    .form-control-dark:-webkit-autofill:hover, 
+    .form-control-dark:-webkit-autofill:hover,
     .form-control-dark:-webkit-autofill:focus {
         -webkit-text-fill-color: #e5e7eb;
         -webkit-box-shadow: 0 0 0px 1000px #0f172a inset;
@@ -137,9 +137,9 @@
 <div class="container fade-in-up">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            
+
             @if(session('success'))
-            <div class="alert alert-success d-flex align-items-center mb-4" role="alert" 
+            <div class="alert alert-success d-flex align-items-center mb-4" role="alert"
                  style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #86efac;">
                 <span class="me-2">✅</span>
                 <div>{{ session('success') }}</div>
@@ -151,8 +151,8 @@
                     <div>
                         <label class="avatar-wrapper-atas shadow-lg me-4">
                             <img
-                                src="{{ $user->avatar ? asset('storage/' . $user->avatar) : '#' }}" 
-                                alt="Profil" 
+                                src="{{ $user->avatar ? asset('storage/' . $user->avatar) : '#' }}"
+                                alt="Profil"
                                 class="avatar-image {{ $user->avatar ? '' : 'd-none' }}">
                             <div id="avatar-initial" class="{{ $user->avatar ? 'd-none' : '' }}"
                                 style="width: 100%; height: 100%; background: linear-gradient(135deg, #a855f7, #22d3ee); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; font-weight: bold;">
@@ -170,34 +170,35 @@
                     @method('PUT')
 
                     <div class="row g-4">
-                        
+
                         <div class="col-12 d-flex align-items-center mb-4">
                             <label class="avatar-wrapper shadow-lg me-4" for="avatar-input">
-                                
-                                <img id="avatar-preview" 
-                                     src="{{ $user->avatar ? asset('storage/' . $user->avatar) : '#' }}" 
-                                     alt="Profil" 
+
+                                <img id="avatar-preview"
+                                     src="{{ $user->avatar ? asset('storage/' . $user->avatar) : '#' }}"
+                                     alt="Profil"
                                      class="avatar-image {{ $user->avatar ? '' : 'd-none' }}">
-                                
+
                                 <div id="avatar-initial" class="{{ $user->avatar ? 'd-none' : '' }}"
                                      style="width: 100%; height: 100%; background: linear-gradient(135deg, #a855f7, #22d3ee); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; font-weight: bold;">
                                     {{ substr($user->nama, 0, 1) }}
                                 </div>
-                        
+
                                 <div class="avatar-overlay">
                                     <span class="overlay-icon">📷</span>
                                     <span class="overlay-text">Ubah</span>
                                 </div>
-                        
+
                                 <input type="file" id="avatar-input" name="avatar" class="d-none" accept="image/*">
                             </label>
-                        
+
                             <div>
                                 <h4 class="text-white fw-bold mb-1">Foto Profil</h4>
                                 <p class="text-tabel">Klik gambar untuk mengganti foto.</p>
                                 <div class="d-flex gap-2">
                                     <span class="badge bg-dark border border-secondary text-secondary">Max 2MB</span>
                                 </div>
+                                <div class="mt-2 text-label">Member sejak: {{ \Carbon\Carbon::parse($user->dibuat)->locale('id')->isoFormat('D MMMM YYYY') }}</div>
                             </div>
                         </div>
 
@@ -207,9 +208,9 @@
 
                         <div class="col-md-6">
                             <label for="nama" class="form-label">Nama Lengkap</label>
-                            <input type="text" 
-                                   class="form-control form-control-dark @error('nama') is-invalid @enderror" 
-                                   id="nama" name="nama" 
+                            <input type="text"
+                                   class="form-control form-control-dark @error('nama') is-invalid @enderror"
+                                   id="nama" name="nama"
                                    value="{{ old('nama', $user->nama) }}" required>
                             @error('nama')
                                 <div class="text-danger small mt-1">{{ $message }}</div>
@@ -218,9 +219,9 @@
 
                         <div class="col-md-6">
                             <label for="email" class="form-label">Alamat Email</label>
-                            <input type="email" 
-                                   class="form-control form-control-dark @error('email') is-invalid @enderror" 
-                                   id="email" name="email" 
+                            <input type="email"
+                                   class="form-control form-control-dark @error('email') is-invalid @enderror"
+                                   id="email" name="email"
                                    value="{{ old('email', $user->email) }}" required>
                              @error('email')
                                 <div class="text-danger small mt-1">{{ $message }}</div>
@@ -234,9 +235,9 @@
 
                         <div class="col-md-6">
                             <label for="password" class="form-label">Password Baru</label>
-                            <input type="password" 
-                                   class="form-control form-control-dark @error('password') is-invalid @enderror" 
-                                   id="password" name="password" 
+                            <input type="password"
+                                   class="form-control form-control-dark @error('password') is-invalid @enderror"
+                                   id="password" name="password"
                                    placeholder="Minimal 8 karakter">
                              @error('password')
                                 <div class="text-danger small mt-1">{{ $message }}</div>
@@ -245,9 +246,9 @@
 
                         <div class="col-md-6">
                             <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                            <input type="password" 
-                                   class="form-control form-control-dark" 
-                                   id="password_confirmation" name="password_confirmation" 
+                            <input type="password"
+                                   class="form-control form-control-dark"
+                                   id="password_confirmation" name="password_confirmation"
                                    placeholder="Ulangi password baru">
                         </div>
 
@@ -270,25 +271,34 @@
     // Script Preview Gambar (Update Realtime)
     document.getElementById('avatar-input').addEventListener('change', function(event) {
         const file = event.target.files[0];
-        
-        if (file) {
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                const previewImg = document.getElementById('avatar-preview');
-                const initialDiv = document.getElementById('avatar-initial');
+        const previewImg = document.getElementById('avatar-preview');
+        const initialDiv = document.getElementById('avatar-initial');
 
-                // 1. Masukkan hasil baca file ke src gambar
-                previewImg.src = e.target.result;
-                
-                // 2. Munculkan tag img, sembunyikan inisial huruf
-                previewImg.classList.remove('d-none');
-                if(initialDiv) initialDiv.classList.add('d-none');
-            }
-            
-            // Baca file sebagai URL data
-            reader.readAsDataURL(file);
+        if (!file) {
+            return;
         }
+
+        const maxBytes = 2 * 1024 * 1024; // 2MB
+        if (file.size > maxBytes) {
+            // Friendly popup and reset input + preview
+            alert('File terlalu besar. Maksimal ukuran adalah 2MB.');
+            event.target.value = '';
+            if (previewImg) previewImg.classList.add('d-none');
+            if (initialDiv) initialDiv.classList.remove('d-none');
+            return;
+        }
+
+        // If file size OK, preview it
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // 1. Masukkan hasil baca file ke src gambar
+            if (previewImg) previewImg.src = e.target.result;
+
+            // 2. Munculkan tag img, sembunyikan inisial huruf
+            if (previewImg) previewImg.classList.remove('d-none');
+            if (initialDiv) initialDiv.classList.add('d-none');
+        }
+        reader.readAsDataURL(file);
     });
 </script>
 @endpush
