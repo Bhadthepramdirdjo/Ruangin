@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ProfileController;
 
 
 // =====================
@@ -53,6 +54,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/booking/{booking}/dokumen/download', [BookingController::class, 'downloadDokumen'])
         ->name('booking.dokumen.download');
+
+    // Fitur Profil
+    Route::get('/profil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profil', [ProfileController::class, 'update'])->name('profile.update');
 
 });
 

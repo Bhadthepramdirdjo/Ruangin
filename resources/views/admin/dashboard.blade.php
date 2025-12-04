@@ -390,6 +390,34 @@
             padding: 0.5rem;
         }
     }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .table-avatar {
+        width: 32px; /* Sedikit lebih kecil agar pas di dashboard */
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(168, 85, 247, 0.5);
+    }
+
+    .table-avatar-fallback {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a855f7, #22d3ee);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.8rem;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+    }
 </style>
 @endpush
 
@@ -564,10 +592,26 @@
                         @foreach($recentBookings->take(10) as $booking)
                             <tr>
                                 <td><strong>{{ $booking->ruangan->nama_ruang }}</strong></td>
-                                <td>{{ $booking->user->nama }}</td>
+                                
+                                <td>
+                                    <div class="user-info">
+                                        @if($booking->user && $booking->user->avatar)
+                                            <img src="{{ asset('storage/' . $booking->user->avatar) }}" 
+                                                alt="Avatar" class="table-avatar">
+                                        @else
+                                            <div class="table-avatar-fallback">
+                                                {{ substr($booking->user->nama ?? 'U', 0, 1) }}
+                                            </div>
+                                        @endif
+                                        <span>{{ $booking->user->nama ?? '-' }}</span>
+                                    </div>
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }}</td>
                                 <td>{{ $booking->jam_mulai }} - {{ $booking->jam_selesai }}</td>
-                                <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $booking->keperluan }}</td>
+                                
+                                <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    {{ $booking->keperluan }}
+                                </td>
                                 <td>
                                     @if($booking->status === 'pending')
                                         <span class="badge badge-pending">⏳ Pending</span>

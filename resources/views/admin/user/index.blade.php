@@ -164,6 +164,34 @@
         padding: 3rem 1rem;
         color: #cbd5f5;
     }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .table-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(168, 85, 247, 0.5);
+    }
+
+    .table-avatar-fallback {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a855f7, #22d3ee);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1rem;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+    }
 </style>
 @endpush
 
@@ -216,8 +244,23 @@
                     <tbody>
                         @foreach ($users as $user)
                             <tr>
-                                <td><strong>{{ $user->nama }}</strong></td>
+                                <td>
+                                    <div class="user-info">
+                                        @if($user->avatar)
+                                            <img src="{{ asset('storage/' . $user->avatar) }}" 
+                                                alt="Avatar" class="table-avatar">
+                                        @else
+                                            <div class="table-avatar-fallback">
+                                                {{ substr($user->nama, 0, 1) }}
+                                            </div>
+                                        @endif
+                                        
+                                        <strong>{{ $user->nama }}</strong>
+                                    </div>
+                                </td>
+                                
                                 <td>{{ $user->email }}</td>
+                                
                                 <td>
                                     @if ($user->role === 'mahasiswa')
                                         <span class="badge badge-mahasiswa">Mahasiswa</span>
@@ -225,6 +268,7 @@
                                         <span class="badge badge-dosen">Dosen</span>
                                     @endif
                                 </td>
+                                
                                 <td>
                                     <form action="{{ route('admin.user.update-role', $user->id) }}" method="POST" style="display: inline;">
                                         @csrf

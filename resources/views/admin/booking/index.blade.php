@@ -207,6 +207,34 @@
         padding: 3rem 1rem;
         color: #cbd5f5;
     }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem; /* Jarak antara foto dan nama */
+    }
+
+    .table-avatar {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid rgba(168, 85, 247, 0.5); /* Border ungu tipis */
+    }
+
+    .table-avatar-fallback {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a855f7, #22d3ee);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.85rem;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+    }
 </style>
 @endpush
 
@@ -258,9 +286,33 @@
                         @foreach ($bookings as $booking)
                             <tr>
                                 <td><strong>{{ $booking->ruangan->nama_ruang ?? '-' }}</strong></td>
-                                <td>{{ $booking->user->nama ?? '-' }}</td>
+                                
+                                <td>
+                                    <div class="user-info">
+                                        @if($booking->user && $booking->user->avatar)
+                                            <img src="{{ asset('storage/' . $booking->user->avatar) }}" 
+                                                alt="Avatar" class="table-avatar">
+                                        @else
+                                            <div class="table-avatar-fallback">
+                                                {{ substr($booking->user->nama ?? 'U', 0, 1) }}
+                                            </div>
+                                        @endif
+                                        
+                                        <div>
+                                            <div style="font-weight: 600; color: #e5e7eb;">
+                                                {{ $booking->user->nama ?? '-' }}
+                                            </div>
+                                            <div style="font-size: 0.75rem; color: #94a3b8;">
+                                                {{ $booking->user->role ?? '-' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($booking->tanggal)->format('d-m-Y') }}</td>
-                                <td>{{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->jam_mulai)->format('H:i') ?? $booking->jam_mulai }} - {{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->jam_selesai)->format('H:i') ?? $booking->jam_selesai }}</td>
+                                <td>
+                                    {{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->jam_mulai)->format('H:i') ?? $booking->jam_mulai }} - 
+                                    {{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->jam_selesai)->format('H:i') ?? $booking->jam_selesai }}
+                                </td>
                                 <td>
                                     @if ($booking->status === 'pending')
                                         <span class="badge badge-pending">Pending</span>

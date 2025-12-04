@@ -294,15 +294,27 @@ document.addEventListener('DOMContentLoaded', function () {
                         </li>
                     @endif
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button"
-                           data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
+                        @if(auth()->user()->avatar)
+                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" 
+                                alt="User" class="rounded-circle object-fit-cover" 
+                                style="width: 35px; height: 35px; border: 2px solid #a855f7;">
+                        @else
                             {{ auth()->user()->nama }}
+                        @endif
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li class="px-3 py-2 text-muted small">
                                 Role: {{ auth()->user()->role }}
                             </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                    👤 Profil Saya
+                                </a>
+                            </li>
                             @if(auth()->user()->role === 'admin')
+                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                                         Admin Dashboard
