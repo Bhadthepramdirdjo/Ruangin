@@ -12,14 +12,20 @@
     }
 
     .page-title {
-        font-size: 2.5rem;
-        font-weight: 800;
-        background: linear-gradient(120deg, #e5e7eb, #c4b5fd, #22d3ee);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: transparent;
-        margin-bottom: 0.5rem;
-    }
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #f9fafb;          /* teks utama putih */
+    margin-bottom: 0.5rem;
+}
+
+/* Bagian yang warnanya mirip "Tersedia" */
+.page-title-highlight {
+    background-image: linear-gradient(90deg, #38bdf8, #22d3ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 
     .greeting-text {
         color: #cbd5e1;
@@ -390,8 +396,10 @@
 @section('content')
 <div class="admin-header">
     <div class="container">
-        <h1 class="page-title">🛡️ Admin Command Center</h1>
-        <p class="greeting-text">Selamat datang kembali, {{ auth()->user()->nama }}. Kelola sistem ruangan dengan mudah.</p>
+       <h1 class="page-title">
+    🛡️ Admin <span class="page-title-highlight">Command Center</span>
+</h1>
+
     </div>
 </div>
 

@@ -11,15 +11,15 @@
         margin-bottom: 2rem;
     }
 
-    .page-title {
-        font-size: 2rem;
-        font-weight: 700;
-        background: linear-gradient(120deg, #e5e7eb, #c4b5fd, #22d3ee);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: transparent;
-    }
-
+.page-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+    color: #e5e7eb;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+}
     .header-content {
         display: flex;
         justify-content: space-between;
