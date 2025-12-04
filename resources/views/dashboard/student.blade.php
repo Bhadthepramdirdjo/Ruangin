@@ -242,11 +242,6 @@
                 </h1>
                 <p style="color: #cbd5f5; margin-top: 0.5rem;">{{ Carbon\Carbon::now()->isoFormat('dddd, D MMMM YYYY') }}</p>
             </div>
-            <div class="col-md-4 text-end">
-                <a href="{{ route('ruangan.list') }}" class="quick-action-btn">
-                    <span>➕</span> Buat Booking Baru
-                </a>
-            </div>
         </div>
     </div>
 </div>
@@ -300,9 +295,6 @@
                 <a href="{{ route('booking.history') }}" class="quick-action-btn">
                     <span>📋</span> Riwayat Booking
                 </a>
-                <a href="#" class="quick-action-btn">
-                    <span>📤</span> Upload Dokumen
-                </a>
             </div>
         </div>
     </div>
@@ -316,7 +308,7 @@
                 <div class="booking-item">
                     <div class="booking-room">{{ $booking->ruangan->nama_ruang ?? 'Ruangan' }}</div>
                     <div class="booking-time">
-                        📅 {{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }} • 
+                        📅 {{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }} •
                         🕐 {{ substr($booking->jam_mulai, 0, 5) }} - {{ substr($booking->jam_selesai, 0, 5) }}
                     </div>
                     <span class="booking-status status-pending">Menunggu Persetujuan</span>
@@ -357,7 +349,7 @@
                 <div class="booking-item">
                     <div class="booking-room">{{ $booking->ruangan->nama_ruang ?? 'Ruangan' }}</div>
                     <div class="booking-time">
-                        📅 {{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }} • 
+                        📅 {{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }} •
                         🕐 {{ substr($booking->jam_mulai, 0, 5) }} - {{ substr($booking->jam_selesai, 0, 5) }}
                     </div>
                     <span class="booking-status status-approved">Disetujui</span>

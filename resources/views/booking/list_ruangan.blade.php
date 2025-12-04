@@ -221,14 +221,14 @@
         <a href="{{ route('dashboard') }}" class="back-btn">
             <span>←</span> Kembali ke Dashboard
         </a>
-        
+
         {{-- BAGIAN INI YANG DIUBAH: --}}
         {{-- Emoji "📚" dipisah dari class text-gradient --}}
         <h1 class="ruangan-title">
             📚 <span class="text-gradient">Daftar Ruangan Tersedia</span>
         </h1>
 
-        <p style="color: #cbd5f5; margin-top: 0.5rem;">Pilih ruangan yang ingin Anda pesan</p>
+        <p style="color: #cbd5f5; margin-top: 0.5rem;">Pilih Ruangan yang Ingin Anda Pesan</p>
     </div>
 </div>
 
@@ -241,10 +241,10 @@
             </a>
             @foreach($ruanganByType->keys() as $type)
                 @if($type)
-                    <a href="#{{ str_replace(' ', '-', strtolower($type)) }}" 
-                       class="filter-tab" 
+                    <a href="#{{ str_replace(' ', '-', strtolower($type)) }}"
+                       class="filter-tab"
                        onclick="scrollToType('{{ str_replace(' ', '-', strtolower($type)) }}'); return false;">
-                        
+
                         @if(strtolower($type) === 'kelas')
                             🎓
                         @elseif(strtolower($type) === 'laboratorium')
@@ -256,8 +256,8 @@
                         @else
                             📌
                         @endif
-                        
-                        {{ $type }} <span class="type-count">({{ $ruanganByType[$type]->count() }})</span>
+
+                        {{ ucfirst($type) }} <span class="type-count">({{ $ruanganByType[$type]->count() }})</span>
                     </a>
                 @endif
             @endforeach
@@ -275,7 +275,7 @@
                 @foreach ($allRuangans as $ruangan)
                     <div class="ruangan-card">
                         <h2 class="ruangan-name">{{ $ruangan->nama_ruang }}</h2>
-                        
+
                         <div class="ruangan-info">
                             @if ($ruangan->kode_ruang)
                                 <div class="ruangan-info-item">
@@ -291,17 +291,17 @@
 
                             <div class="ruangan-info-item">
                                 <span class="ruangan-label">Lokasi:</span>
-                                <span class="ruangan-value">📍 {{ $ruangan->lokasi }}</span>
+                                <span class="ruangan-value">📍 {{ ucfirst($ruangan->lokasi) }}</span>
                             </div>
 
                             @if ($ruangan->tipe)
                                 <div class="ruangan-info-item">
                                     <span class="ruangan-label">Tipe:</span>
-                                    <span class="ruangan-value">{{ $ruangan->tipe }}</span>
+                                    <span class="ruangan-value">{{ ucfirst($ruangan->tipe) }}</span>
                                 </div>
                             @endif
                         </div>
-                        
+
                         <a href="{{ route('booking.create', ['id_ruangan' => $ruangan->id_ruangan]) }}" class="ruangan-btn">
                             <span>📄</span> Ajukan Peminjaman
                         </a>
@@ -312,7 +312,7 @@
     @else
         <div class="empty-state">
             <div class="empty-state-icon">📭</div>
-            <p>Tidak ada ruangan yang tersedia saat ini</p>
+            <p>Tidak Ada Ruangan yang Tersedia Saat Ini</p>
         </div>
     @endif
 
@@ -334,18 +334,18 @@
                             📌
                         @endif
                     </span>
-                    {{ $type }} ({{ $ruangans->count() }})
+                    {{ ucfirst($type) }} ({{ $ruangans->count() }})
                 </div>
                 <div class="ruangan-grid">
                     @forelse ($ruangans as $ruangan)
                         <div class="ruangan-card">
                             <h2 class="ruangan-name">{{ $ruangan->nama_ruang }}</h2>
-                            
+
                             <div class="ruangan-info">
-                                @if ($ruangan->kode_ruang)
+                                @if ($ruangan->tipe)
                                     <div class="ruangan-info-item">
-                                        <span class="ruangan-label">Kode:</span>
-                                        <span class="ruangan-value">{{ $ruangan->kode_ruang }}</span>
+                                        <span class="ruangan-label">Tipe:</span>
+                                        <span class="ruangan-value">{{ ucfirst($ruangan->tipe) }}</span>
                                     </div>
                                 @endif
 
@@ -356,7 +356,7 @@
 
                                 <div class="ruangan-info-item">
                                     <span class="ruangan-label">Lokasi:</span>
-                                    <span class="ruangan-value">📍 {{ $ruangan->lokasi }}</span>
+                                    <span class="ruangan-value">📍 {{ ucfirst($ruangan->lokasi) }}</span>
                                 </div>
 
                                 @if ($ruangan->keterangan)
@@ -366,14 +366,14 @@
                                     </div>
                                 @endif
                             </div>
-                            
+
                             <a href="{{ route('booking.create', ['id_ruangan' => $ruangan->id_ruangan]) }}" class="ruangan-btn">
                                 <span>📄</span> Ajukan Peminjaman
                             </a>
                         </div>
                     @empty
                         <div class="no-ruangan-type">
-                            Tidak ada ruangan untuk tipe {{ $type }}
+                            Tidak Ada Ruangan untuk Tipe {{ $type }}
                         </div>
                     @endforelse
                 </div>
@@ -388,7 +388,7 @@
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        
+
         // Update active filter tab
         document.querySelectorAll('.filter-tab').forEach(tab => {
             tab.classList.remove('active');

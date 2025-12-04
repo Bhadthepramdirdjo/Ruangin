@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'Booking Saya')
-
 @push('styles')
 <style>
     .page-title {
@@ -215,7 +213,6 @@
 @section('content')
 <div class="container py-5">
 
-    <h1 class="page-title mb-3">Booking Saya</h1>
 
     @if (session('success'))
         <div class="booking-alert">
@@ -303,7 +300,7 @@
         </div>
     @empty
         <div class="empty-state">
-            Belum ada booking yang Anda buat.  
+            Belum ada booking yang Anda buat.
             Silakan gunakan menu <strong>Booking</strong> untuk mengajukan peminjaman ruangan.
         </div>
     @endforelse
