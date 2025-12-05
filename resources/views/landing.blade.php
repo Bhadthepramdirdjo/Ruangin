@@ -244,49 +244,7 @@
         color: #d1d5db;
     }
 
-    /* ===== 3. TESTIMONI ===== */
-    .lp-testimonial-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0,1fr));
-        gap: 1.2rem;
-    }
-    @media (max-width: 992px) {
-        .lp-testimonial-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .lp-testimonial-card {
-        border-radius: 18px;
-        padding: 1.2rem 1.2rem 1.1rem;
-        background:
-            radial-gradient(circle at top right, rgba(56,189,248,.4), transparent 55%),
-            rgba(15,23,42,.97);
-        border: 1px solid rgba(148,163,184,.7);
-        color: #e5e7eb;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .lp-testimonial-quote {
-        font-size: .9rem;
-        line-height: 1.5;
-        margin-bottom: .9rem;
-        color: #e5e7eb;
-    }
-
-    .lp-testimonial-name {
-        font-weight: 700;
-        font-size: .9rem;
-    }
-
-    .lp-testimonial-role {
-        font-size: .8rem;
-        color: #cbd5f5;
-        opacity: .9;
-    }
-
-    /* ===== 4. FAQ ===== */
+    /* ===== 3. FAQ ===== */
     .lp-faq-item {
         border-radius: 14px;
         background: rgba(15,23,42,.96);
@@ -308,15 +266,16 @@
         align-items: center;
     }
 
-    .lp-faq-button span {
+    .lp-faq-button span:first-child {
         flex: 1;
     }
 
     .lp-faq-icon {
-        margin-left: .75rem;
+        flex-shrink: 0;
         font-size: 1.05rem;
         color: #a5b4fc;
         transition: transform .18s ease;
+        margin-left: auto;
     }
 
     .lp-faq-button[aria-expanded="true"] .lp-faq-icon {
@@ -329,7 +288,7 @@
         color: #d1d5db;
     }
 
-        /* ===== 5. CTA STRIP ===== */
+    /* ===== 4. CTA STRIP ===== */
     .lp-cta-strip {
         position: relative;
         border-radius: 26px;
@@ -507,24 +466,7 @@
         transition-delay: .18s;
     }
 
-    /* Section 3 – Testimoni */
-    .lp-section-testimoni .lp-testimonial-card {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity .5s ease-out, transform .5s ease-out;
-    }
-    .lp-section-testimoni.is-visible .lp-testimonial-card {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .lp-section-testimoni.is-visible .lp-testimonial-card:nth-child(2) {
-        transition-delay: .08s;
-    }
-    .lp-section-testimoni.is-visible .lp-testimonial-card:nth-child(3) {
-        transition-delay: .16s;
-    }
-
-    /* Section 4 – FAQ */
+    /* Section 3 – FAQ */
     .lp-section-faq .lp-faq-item {
         opacity: 0;
         transform: translateY(16px);
@@ -541,7 +483,7 @@
         transition-delay: .12s;
     }
 
-    /* Section 5 – CTA */
+    /* Section 4 – CTA */
     .lp-section-cta .lp-cta-strip {
         opacity: 0;
         transform: translateY(26px) scale(.97);
@@ -719,44 +661,8 @@
     </div>
 </section>
 
-{{-- ================= SECTION 3 – TESTIMONI ================= --}}
-<section class="lp-section lp-animate lp-section-testimoni" id="testimoni">
-    <h2 class="lp-section-title">Apa kata pengguna?</h2>
-    <p class="lp-section-sub">
-        Beberapa pengalaman dari dosen dan mahasiswa yang menggunakan Ruangin.app di kampus.
-    </p>
 
-    <div class="lp-testimonial-grid">
-        <div class="lp-testimonial-card">
-            <p class="lp-testimonial-quote mb-0">
-                “Sebelumnya saya sering bingung apakah lab sudah dibooking atau belum. Sekarang jadwalnya jelas
-                dan bisa dicek sendiri tanpa harus ke TU.”
-            </p>
-            <div class="lp-testimonial-name mt-2">Raka Pratama</div>
-            <div class="lp-testimonial-role">Mahasiswa Informatika</div>
-        </div>
-
-        <div class="lp-testimonial-card">
-            <p class="lp-testimonial-quote mb-0">
-                “Proses persetujuan ruangan rapat jadi terdokumentasi rapi. Saya bisa melihat riwayat booking
-                dan mengetahui siapa yang menggunakan ruangan.”
-            </p>
-            <div class="lp-testimonial-name mt-2">Ibu Sari Wulandari</div>
-            <div class="lp-testimonial-role">Dosen & Koordinator Lab</div>
-        </div>
-
-        <div class="lp-testimonial-card">
-            <p class="lp-testimonial-quote mb-0">
-                “Sebagai admin, saya terbantu karena permintaan datang secara terstruktur, lengkap dengan dokumen
-                pendukung. Tidak ada lagi form kertas yang tercecer.”
-            </p>
-            <div class="lp-testimonial-name mt-2">Bapak Andi Firmansyah</div>
-            <div class="lp-testimonial-role">Staff Administrasi Fakultas</div>
-        </div>
-    </div>
-</section>
-
-{{-- ================= SECTION 4 – FAQ ================= --}}
+{{-- ================= SECTION 3 – FAQ ================= --}}
 <section class="lp-section lp-animate lp-section-faq" id="faq">
     <h2 class="lp-section-title">Pertanyaan yang sering diajukan</h2>
     <p class="lp-section-sub">
@@ -806,7 +712,7 @@
     </div>
 </section>
 
-{{-- ================= SECTION 5 – CTA STRIP ================= --}}
+{{-- ================= SECTION 4 – CTA STRIP ================= --}}
 <section class="lp-section lp-animate lp-section-cta" id="cta">
     <div class="lp-cta-strip">
         <div>
@@ -903,3 +809,4 @@ document.addEventListener('DOMContentLoaded', function () {
 @endpush
 
 @endsection
+
