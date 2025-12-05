@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\QueryException;
 
 class AuthController extends Controller
 {
@@ -71,7 +73,25 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        // Check DB connectivity and presence of users table to avoid 500 errors
+        try {
+            if (!Schema::hasTable('users')) {
+                return back()->withErrors([
+                    'database' => 'Tabel `users` tidak ditemukan. Jalankan migrasi atau periksa konfigurasi database.'
+                ])->onlyInput('email');
+            }
+        } catch (QueryException $e) {
+            return back()->withErrors([
+                'database' => 'Tidak dapat terhubung ke database: ' . $e->getMessage()
+            ])->onlyInput('email');
+        } catch (\Exception $e) {
+            return back()->withErrors([
+                'database' => 'Kesalahan koneksi database: ' . $e->getMessage()
+            ])->onlyInput('email');
+        }
+
+        // Remove 'remember me' functionality: do not pass remember flag
+        if (Auth::attempt($credentials)) {
             // If the account is a dosen and not verified yet, prevent login
             $user = Auth::user();
             if ($user->role === 'dosen' && !$user->is_verified) {
