@@ -56,9 +56,8 @@ class AuthController extends Controller
             'is_verified' => $validated['role'] === 'dosen' ? false : true,
         ]);
 
-        Auth::login($user);
-
-        return redirect()->route('landing')->with('success', 'Registrasi berhasil, selamat datang di Ruangin.app!');
+        // Tidak login otomatis, redirect ke login dengan notifikasi
+        return redirect()->route('login')->with('success', 'Akun telah berhasil terdaftar! Silakan login untuk melanjutkan.');
     }
 
     public function showLogin()

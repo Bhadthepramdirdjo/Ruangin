@@ -97,7 +97,7 @@
     .password-group .form-control {
         border-right: none; /* Hilangkan border kanan input */
     }
-    
+
     .password-group .input-group-text {
         background: rgba(15,23,42,0.9);
         border-color: rgba(148,163,184,0.7);
@@ -105,7 +105,7 @@
         color: #9ca3af;
         cursor: pointer;
     }
-    
+
     .password-group .input-group-text:hover {
         color: #e5e7eb;
     }
@@ -154,6 +154,12 @@
             @if (session('status'))
                 <div class="alert alert-success py-2">
                     {{ session('status') }}
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="alert alert-success py-2">
+                    {{ session('success') }}
                 </div>
             @endif
 
@@ -229,7 +235,7 @@
         // Toggle tipe attribute
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
-        
+
         // Toggle ikon mata
         if (type === 'password') {
             icon.classList.remove('fa-eye-slash');

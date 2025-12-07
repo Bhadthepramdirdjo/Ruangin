@@ -592,11 +592,11 @@
                         @foreach($recentBookings->take(10) as $booking)
                             <tr>
                                 <td><strong>{{ $booking->ruangan->nama_ruang }}</strong></td>
-                                
+
                                 <td>
                                     <div class="user-info">
                                         @if($booking->user && $booking->user->avatar)
-                                            <img src="{{ asset('storage/' . $booking->user->avatar) }}" 
+                                            <img src="{{ asset('storage/' . $booking->user->avatar) }}"
                                                 alt="Avatar" class="table-avatar">
                                         @else
                                             <div class="table-avatar-fallback">
@@ -608,7 +608,7 @@
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }}</td>
                                 <td>{{ $booking->jam_mulai }} - {{ $booking->jam_selesai }}</td>
-                                
+
                                 <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                     {{ $booking->keperluan }}
                                 </td>
@@ -689,7 +689,7 @@
     <!-- QUICK STATS FOOTER -->
     <div class="section-container" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(148,163,184,0.2);">
         <p style="color: #64748b; font-size: 0.85rem; text-align: center;">
-            Last updated: <strong>{{ now()->format('H:i:s') }}</strong> | 
+            Last updated: <strong>{{ now()->format('H:i:s') }}</strong> |
             Refresh untuk mendapatkan data terbaru
         </p>
     </div>
