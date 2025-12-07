@@ -52,7 +52,7 @@ class BookingController extends Controller
         Booking::create($validated);
 
         return redirect()
-            ->route('booking.my')
+            ->route('booking.history')
             ->with('success', 'Booking berhasil dibuat, menunggu persetujuan');
     }
 

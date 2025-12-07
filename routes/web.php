@@ -45,7 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/ruangan', [BookingController::class, 'listRuangan'])->name('ruangan.list');
     Route::get('/booking/ruangan/{id_ruangan}', [BookingController::class, 'create'])->name('booking.create');
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
-    Route::get('/booking/saya', [BookingController::class, 'myBookings'])->name('booking.my');
     Route::get('/booking/history', [BookingController::class, 'history'])->name('booking.history');
 
         // Dokumen booking (lihat & download)
