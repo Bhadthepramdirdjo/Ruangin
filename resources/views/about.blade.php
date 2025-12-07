@@ -210,7 +210,7 @@
                     </div>
                 </div>
                 <div class="team-name">Frendly Great Cornelius Siahaan</div>
-                <div class="team-role">Kontribusi : --</div>
+                <div class="team-role">Kontribusi : 100%</div>
 
                 <div class="team-divider"></div>
 
@@ -234,7 +234,7 @@
                     </div>
                 </div>
                 <div class="team-name">Alfansyah Rizky Wijaya</div>
-                <div class="team-role">Kontribusi : --</div>
+                <div class="team-role">Kontribusi : 100%</div>
 
                 <div class="team-divider"></div>
 
@@ -258,7 +258,7 @@
                     </div>
                 </div>
                 <div class="team-name">Bhadriko Theo Pramudya</div>
-                <div class="team-role">Kontribusi : --</div>
+                <div class="team-role">Kontribusi : 100%</div>
 
                 <div class="team-divider"></div>
 
@@ -282,7 +282,7 @@
                     </div>
                 </div>
                 <div class="team-name">Revana Yusuf Maulid</div>
-                <div class="team-role">Kontribusi : --</div>
+                <div class="team-role">Kontribusi : 100%</div>
 
                 <div class="team-divider"></div>
 
@@ -306,7 +306,7 @@
                     </div>
                 </div>
                 <div class="team-name">Barka Tirta Rama Abdurrahman</div>
-                <div class="team-role">Kontribusi : --</div>
+                <div class="team-role">Kontribusi : 100%</div>
 
                 <div class="team-divider"></div>
 
