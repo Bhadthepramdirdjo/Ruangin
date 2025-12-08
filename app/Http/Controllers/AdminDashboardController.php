@@ -222,4 +222,16 @@ class AdminDashboardController extends Controller
         $msg = $user->is_verified ? 'Akun berhasil diverifikasi.' : 'Akun diverifikasi dibatalkan.';
         return redirect()->route('admin.user.index')->with('success', $msg);
     }
+    public function bookingDestroy($id)
+{
+    $booking = Booking::findOrFail($id);
+
+    // kalau ada dokumen lampiran dan ingin ikut dihapus, bisa ditambahkan di sini
+
+    $booking->delete();
+
+    return redirect()->route('admin.booking.index')
+                     ->with('success', 'Booking berhasil dihapus.');
+}
+
 }

@@ -15,8 +15,8 @@ class BookingController extends Controller
     {
         // Ambil semua ruangan dan kelompokkan berdasarkan tipe
         $ruanganByType = Ruangan::all()->groupBy('tipe');
-        $allRuangans = Ruangan::all();
-        
+        $allRuangans   = Ruangan::all();
+
         return view('booking.list_ruangan', compact('ruanganByType', 'allRuangans'));
     }
 
@@ -28,20 +28,26 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'ruangan_id'    => 'required|exists:ruangan,id',
-            'tanggal'       => 'required|date|after_or_equal:today',
-            'jam_mulai'     => 'required|date_format:H:i',
-            'jam_selesai'   => 'required|date_format:H:i|after:jam_mulai',
-            'keperluan'     => 'required|string|max:500',
-            'dokumen'       => 'nullable|file|mimes:pdf|max:5120', // max 5MB
-        ]);
+        $validated = $request->validate(
+            [
+                'ruangan_id'  => 'required|exists:ruangan,id',
+                'tanggal'     => 'required|date|after_or_equal:today',
+                'jam_mulai'   => 'required|date_format:H:i',
+                'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+                'keperluan'   => 'required|string|max:500',
+                'dokumen'     => 'required|file|mimes:pdf|max:5120', // max 5MB
+            ],
+            [
+                'dokumen.required' => 'Lampiran surat peminjaman wajib diunggah.',
+                'dokumen.mimes'    => 'Lampiran harus berupa file PDF.',
+                'dokumen.max'      => 'Ukuran lampiran maksimal 5MB.',
+            ]
+        );
 
         $validated['user_id'] = Auth::id();
 
-        // Handle dokumen upload jika ada
+        // Simpan file dokumen (wajib ada karena rule "required")
         if ($request->hasFile('dokumen')) {
-            // akan menghasilkan path seperti: "dokumen/nama_file_random.pdf"
             $path = $request->file('dokumen')->store('dokumen', 'public');
             $validated['dokumen'] = $path;
         }
@@ -79,7 +85,7 @@ class BookingController extends Controller
     // ================== LIHAT DOKUMEN (LAMPIRAN) ==================
     public function showDokumen(Booking $booking)
     {
-        // Opsional: pastikan hanya pemilik booking atau admin yang boleh akses
+        // boleh diakses pemilik booking atau admin
         if (Auth::check() && $booking->user_id !== Auth::id() && auth()->user()->role !== 'admin') {
             abort(403);
         }
@@ -96,14 +102,13 @@ class BookingController extends Controller
 
         $fullPath = $disk->path($booking->dokumen);
 
-        // Tampilkan langsung di browser (PDF / gambar)
         return response()->file($fullPath);
     }
 
     // ================== DOWNLOAD DOKUMEN ==================
     public function downloadDokumen(Booking $booking)
     {
-        // Opsional: pastikan hanya pemilik booking atau admin yang boleh download
+        // boleh diakses pemilik booking atau admin
         if (Auth::check() && $booking->user_id !== Auth::id() && auth()->user()->role !== 'admin') {
             abort(403);
         }
@@ -118,24 +123,19 @@ class BookingController extends Controller
             abort(404, 'File dokumen tidak ditemukan di server.');
         }
 
-        // Tentukan ekstensi file
         $ext = pathinfo($booking->dokumen, PATHINFO_EXTENSION);
 
-        // Ambil nama ruangan & user untuk dijadikan nama file
-        $ruanganName = optional($booking->ruangan)->nama_ruangan ?? 'Ruangan';
+        $ruanganName = optional($booking->ruangan)->nama_ruang ?? 'Ruangan';
         $user        = $booking->user ?? null;
         $userName    = $user ? ($user->nama ?? $user->name ?? 'User') : 'User';
 
-        // Format tanggal mis: 20251204
         $tanggal = $booking->tanggal
             ? Carbon::parse($booking->tanggal)->format('Ymd')
             : date('Ymd');
 
-        // Bersihkan karakter aneh dari nama supaya aman untuk nama file
         $slugRuangan = preg_replace('/[^A-Za-z0-9\-]+/', '_', $ruanganName);
         $slugUser    = preg_replace('/[^A-Za-z0-9\-]+/', '_', $userName);
 
-        // Contoh hasil: Booking_LabKomputer_1_20251204_Frendly_Great.pdf
         $filename = "Booking_{$slugRuangan}_{$tanggal}_{$slugUser}." . $ext;
 
         return $disk->download($booking->dokumen, $filename);

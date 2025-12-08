@@ -78,6 +78,8 @@ Route::middleware(['auth', 'is.admin'])->prefix('admin')->group(function () {
     // Booking management
     Route::get('/booking', [AdminDashboardController::class, 'bookingIndex'])->name('admin.booking.index');
     Route::get('/booking/{id}', [AdminDashboardController::class, 'bookingShow'])->name('admin.booking.show');
+    Route::delete('/booking/{id}', [AdminDashboardController::class, 'bookingDestroy'])
+    ->name('admin.booking.destroy');
     Route::post('/booking/{id}/approve', [AdminDashboardController::class, 'bookingApprove'])->name('admin.booking.approve');
     Route::post('/booking/{id}/reject', [AdminDashboardController::class, 'bookingReject'])->name('admin.booking.reject');
 

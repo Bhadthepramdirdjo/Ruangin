@@ -158,6 +158,61 @@
         color: #fca5a5;
         font-size: 0.9rem;
     }
+
+    /* ===== Custom file input ===== */
+    .file-upload-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .file-upload-input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .file-upload-display {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .75rem;
+        background: rgba(30,41,59,0.7);
+        border: 1px solid rgba(148,163,184,0.4);
+        border-radius: 999px;
+        padding: 0.65rem 0.9rem 0.65rem 1.1rem;
+        font-size: 0.85rem;
+        color: #cbd5f5;
+        transition: all .25s ease;
+    }
+
+    .file-upload-display:hover {
+        border-color: rgba(129,140,248,0.9);
+        box-shadow: 0 0 16px rgba(59,130,246,0.4);
+    }
+
+    .file-upload-name {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        opacity: .9;
+    }
+
+    .file-upload-button {
+        flex-shrink: 0;
+        padding: 0.4rem 1rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #0ea5e9, #6366f1);
+        color: #0b1120;
+        font-weight: 600;
+        font-size: 0.8rem;
+        box-shadow: 0 8px 20px rgba(56,189,248,0.55);
+    }
+
+    .file-upload-icon {
+        margin-right: 0.4rem;
+    }
 </style>
 @endpush
 
@@ -258,14 +313,31 @@
 
             <div class="form-group">
                 <label for="dokumen" class="form-label">Lampiran Surat Peminjaman (PDF)</label>
-                <input
-                    type="file"
-                    id="dokumen"
-                    name="dokumen"
-                    accept="application/pdf"
-                    class="form-control @error('dokumen') border-red-500 @enderror"
-                >
-                <small style="color:#94a3b8; display:block; margin-top:6px;">Upload file PDF sebagai surat permohonan peminjaman (maks 5MB).</small>
+
+                <div class="file-upload-wrapper @error('dokumen') border-red-500 @enderror">
+                    <div class="file-upload-display">
+                        <span id="dokumen-filename" class="file-upload-name">
+                            Belum ada file dipilih
+                        </span>
+                        <span class="file-upload-button">
+                            <span class="file-upload-icon">📎</span>
+                            Pilih File
+                        </span>
+                    </div>
+                    <input
+                        type="file"
+                        id="dokumen"
+                        name="dokumen"
+                        accept="application/pdf"
+                        class="file-upload-input"
+                        required
+                    >
+                </div>
+
+                <small style="color:#94a3b8; display:block; margin-top:6px;">
+                    Upload file PDF sebagai surat permohonan peminjaman (maks 5MB).
+                </small>
+
                 @error('dokumen')
                     <div class="form-error">{{ $message }}</div>
                 @enderror
@@ -278,3 +350,22 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input   = document.getElementById('dokumen');
+        const labelEl = document.getElementById('dokumen-filename');
+
+        if (input && labelEl) {
+            input.addEventListener('change', function () {
+                if (this.files && this.files.length > 0) {
+                    labelEl.textContent = this.files[0].name;
+                } else {
+                    labelEl.textContent = 'Belum ada file dipilih';
+                }
+            });
+        }
+    });
+</script>
+@endpush
