@@ -89,9 +89,8 @@ class AuthController extends Controller
             ])->onlyInput('email');
         }
 
-        // Remove 'remember me' functionality: do not pass remember flag
+       
         if (Auth::attempt($credentials)) {
-            // If the account is a dosen and not verified yet, prevent login
             $user = Auth::user();
             if ($user->role === 'dosen' && !$user->is_verified) {
                 Auth::logout();
