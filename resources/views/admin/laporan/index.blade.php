@@ -188,7 +188,13 @@
                         <small class="text-muted">{{ $bg->user->role }}</small>
                     </td>
                     <td>{{ $bg->keperluan }}</td>
-                    <td>\n                        @php\n                            $jamMulai = \\Carbon\\Carbon::parse($bg->tanggal . ' ' . $bg->jam_mulai);\n                            $jamSelesai = $jamMulai->copy()->addMinutes($bg->jumlah_sks * 50);\n                        @endphp\n                        {{ $jamMulai->format('H:i') }} - {{ $jamSelesai->format('H:i') }} ({{ $bg->jumlah_sks }} SKS)\n                    </td>
+                    <td>
+                        @php
+                            $jamMulai = \Carbon\Carbon::parse($bg->tanggal . ' ' . $bg->jam_mulai);
+                            $jamSelesai = $jamMulai->copy()->addMinutes($bg->jumlah_sks * 50);
+                        @endphp
+                        {{ $jamMulai->format('H:i') }} - {{ $jamSelesai->format('H:i') }} ({{ $bg->jumlah_sks }} SKS)
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
