@@ -560,8 +560,59 @@
         }
     }
 
+    // Load occupied slots untuk tanggal yang dipilih
+    async function loadOccupiedSlots() {
+        const tanggal = document.getElementById('tanggal').value;
+        const ruanganId = document.querySelector('input[name="ruangan_id"]').value;
+
+        if (!tanggal || !ruanganId) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/booking/api/available-slots?ruangan_id=${ruanganId}&tanggal=${tanggal}`);
+            const data = await response.json();
+            
+            if (data.occupied_slots) {
+                markOccupiedSlots(data.occupied_slots);
+            }
+        } catch (error) {
+            console.warn('Gagal memuat slot yang tersedia:', error);
+        }
+    }
+
+    // Mark slots as occupied (disabled)
+    function markOccupiedSlots(occupiedSlots) {
+        const buttons = document.querySelectorAll('.time-slot-btn');
+        buttons.forEach(button => {
+            const time = button.dataset.time;
+            if (occupiedSlots.includes(time)) {
+                button.disabled = true;
+                button.style.opacity = '0.5';
+                button.style.cursor = 'not-allowed';
+                button.style.background = 'rgba(239, 68, 68, 0.2)';
+                button.style.borderColor = 'rgba(239, 68, 68, 0.5)';
+                button.style.color = '#94a3b8';
+                button.title = 'Waktu ini sudah dibooking';
+            } else {
+                button.disabled = false;
+                button.style.opacity = '1';
+                button.style.cursor = 'pointer';
+                button.style.background = '';
+                button.style.borderColor = '';
+                button.style.color = '';
+                button.title = '';
+            }
+        });
+    }
+
     // Select time slot
     function selectTimeSlot(time, button) {
+        if (button.disabled) {
+            alert('Waktu ini sudah dibooking. Silakan pilih waktu lain.');
+            return;
+        }
+
         // Remove previous selection
         document.querySelectorAll('.time-slot-btn').forEach(btn => {
             btn.classList.remove('selected');
@@ -643,6 +694,11 @@
         updateSksDisplay();
     });
 
+    // Tanggal change handler - reload occupied slots
+    document.getElementById('tanggal').addEventListener('change', function() {
+        loadOccupiedSlots();
+    });
+
     // File upload handler
     const dokumenInput = document.getElementById('dokumen');
     const dokumenFilename = document.getElementById('dokumen-filename');
@@ -686,12 +742,13 @@
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
         generateTimeSlots();
+        loadOccupiedSlots();
 
         // Set selected time if already chosen
         const selectedTime = document.getElementById('jam_mulai').value;
         if (selectedTime) {
             const button = document.querySelector(`[data-time="${selectedTime}"]`);
-            if (button) {
+            if (button && !button.disabled) {
                 button.classList.add('selected');
                 document.getElementById('selectedTime').textContent = selectedTime;
                 document.getElementById('timeSlotInfo').classList.add('show');

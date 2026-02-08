@@ -68,7 +68,7 @@ class BookingController extends Controller
         }
 
         // Validasi durasi SKS: jam_mulai + (jumlah_sks * 50 menit) tidak boleh melebihi jam 18:00
-        $jamMulai = Carbon::createFromFormat('H:i', $validated['jam_mulai']);
+        $jamMulai = Carbon::createFromTimeString($validated['jam_mulai'] . ':00');
         $durationMinutes = $validated['jumlah_sks'] * 50;
         $jamSelesai = $jamMulai->copy()->addMinutes($durationMinutes);
         $jamOperasionalAkhir = Carbon::createFromFormat('H:i', '18:00');
@@ -79,6 +79,26 @@ class BookingController extends Controller
                 ->back()
                 ->withInput()
                 ->with('error', "SKS yang Anda pilih melebihi batas jam operasional. Jam mulai {$validated['jam_mulai']} hanya dapat di-booking maksimal {$maxSks} SKS (" . ($maxSks * 50) . " menit).");
+        }
+
+        // Validasi: Cek konflik dengan booking yang sudah disetujui
+        $existingBooking = Booking::where('ruangan_id', $validated['ruangan_id'])
+            ->where('tanggal', $validated['tanggal'])
+            ->where('status', 'disetujui')
+            ->get();
+
+        foreach ($existingBooking as $booking) {
+            $existingJamMulai = Carbon::createFromTimeString($booking->jam_mulai);
+            $existingJamSelesai = $existingJamMulai->copy()->addMinutes($booking->jumlah_sks * 50);
+
+            // Cek overlap: jam_baru_mulai < jam_existing_selesai AND jam_existing_mulai < jam_baru_selesai
+            if ($jamMulai->lt($existingJamSelesai) && $existingJamMulai->lt($jamSelesai)) {
+                // Ada konflik
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', 'Ruangan sudah dibooking pada jam ' . $booking->jam_mulai . ' (selama ' . $booking->jumlah_sks . ' SKS). Silakan pilih waktu yang lain.');
+            }
         }
 
         $validated['user_id'] = Auth::id();
@@ -97,6 +117,44 @@ class BookingController extends Controller
         return redirect()
             ->route('booking.history')
             ->with('success', 'Booking berhasil dibuat, menunggu persetujuan');
+    }
+
+    // ================== GET AVAILABLE SLOTS (API) ==================
+    public function getAvailableSlots(Request $request)
+    {
+        $ruangan_id = $request->query('ruangan_id');
+        $tanggal = $request->query('tanggal');
+
+        if (!$ruangan_id || !$tanggal) {
+            return response()->json(['error' => 'ruangan_id dan tanggal diperlukan'], 400);
+        }
+
+        // Ambil semua booking yang approved untuk ruangan dan tanggal ini
+        $bookings = Booking::where('ruangan_id', $ruangan_id)
+            ->where('tanggal', $tanggal)
+            ->where('status', 'disetujui')
+            ->get();
+
+        $occupiedSlots = [];
+
+        // Konversi semua occupied slots menjadi array
+        foreach ($bookings as $booking) {
+            $jamMulai = Carbon::createFromTimeString($booking->jam_mulai);
+            $durationMinutes = $booking->jumlah_sks * 50;
+            $jamSelesai = $jamMulai->copy()->addMinutes($durationMinutes);
+
+            // Tambahkan setiap slot 50 menit yang occupied
+            $current = $jamMulai->copy();
+            while ($current->lt($jamSelesai)) {
+                $occupiedSlots[] = $current->format('H:i');
+                $current->addMinutes(50);
+            }
+        }
+
+        return response()->json([
+            'occupied_slots' => array_unique($occupiedSlots),
+            'total_occupied' => count(array_unique($occupiedSlots))
+        ]);
     }
 
     public function myBookings()
@@ -175,6 +233,6 @@ class BookingController extends Controller
 
         $filename = "Booking_{$slugRuangan}_{$tanggal}_{$slugUser}." . $ext;
 
-        return $disk->download($booking->dokumen, $filename);
+        return response()->download($disk->path($booking->dokumen), $filename);
     }
 }
