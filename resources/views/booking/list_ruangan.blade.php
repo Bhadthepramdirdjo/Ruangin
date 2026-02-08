@@ -212,6 +212,32 @@
         text-align: center;
         color: #cbd5f5;
     }
+
+    .alert-error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.5);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        color: #fca5a5;
+    }
+
+    .ruangan-btn:disabled,
+    .ruangan-btn.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+        background: rgba(107, 114, 128, 0.5);
+        border-color: rgba(107, 114, 128, 0.8);
+        color: #d1d5db;
+    }
+
+    .ruangan-restriction {
+        font-size: 0.8rem;
+        color: #fca5a5;
+        margin-top: 0.5rem;
+        font-weight: 500;
+    }
 </style>
 @endpush
 
@@ -233,6 +259,12 @@
 </div>
 
 <div class="container pb-5">
+    @if (session('error'))
+        <div class="alert-error">
+            {{ session('error') }}
+        </div>
+    @endif
+
     {{-- Filter Tabs --}}
     @if ($allRuangans->count() > 0)
         <div class="filter-tabs">
@@ -302,9 +334,26 @@
                             @endif
                         </div>
 
-                        <a href="{{ route('booking.create', ['id_ruangan' => $ruangan->id_ruangan]) }}" class="ruangan-btn">
-                            <span>📄</span> Ajukan Peminjaman
-                        </a>
+                        @php
+                            $canBooking = true;
+                            $restrictionMessage = '';
+                            
+                            if (Auth::check() && Auth::user()->role === 'mahasiswa' && strtolower($ruangan->tipe) === 'lab') {
+                                $canBooking = false;
+                                $restrictionMessage = 'Hanya Dosen yang dapat booking Lab';
+                            }
+                        @endphp
+
+                        @if ($canBooking)
+                            <a href="{{ route('booking.create', ['id_ruangan' => $ruangan->id_ruangan]) }}" class="ruangan-btn">
+                                <span>📄</span> Ajukan Peminjaman
+                            </a>
+                        @else
+                            <button class="ruangan-btn disabled" disabled title="Anda tidak bisa booking ruangan ini">
+                                <span>🚫</span> Tidak Dapat Diboking
+                            </button>
+                            <div class="ruangan-restriction">{{ $restrictionMessage }}</div>
+                        @endif
                     </div>
                 @endforeach
             </div>
@@ -367,9 +416,26 @@
                                 @endif
                             </div>
 
-                            <a href="{{ route('booking.create', ['id_ruangan' => $ruangan->id_ruangan]) }}" class="ruangan-btn">
-                                <span>📄</span> Ajukan Peminjaman
-                            </a>
+                            @php
+                                $canBooking = true;
+                                $restrictionMessage = '';
+                                
+                                if (Auth::check() && Auth::user()->role === 'mahasiswa' && strtolower($ruangan->tipe) === 'lab') {
+                                    $canBooking = false;
+                                    $restrictionMessage = 'Hanya Dosen yang dapat booking Lab';
+                                }
+                            @endphp
+
+                            @if ($canBooking)
+                                <a href="{{ route('booking.create', ['id_ruangan' => $ruangan->id_ruangan]) }}" class="ruangan-btn">
+                                    <span>📄</span> Ajukan Peminjaman
+                                </a>
+                            @else
+                                <button class="ruangan-btn disabled" disabled title="Anda tidak bisa booking ruangan ini">
+                                    <span>🚫</span> Tidak Dapat Diboking
+                                </button>
+                                <div class="ruangan-restriction">{{ $restrictionMessage }}</div>
+                            @endif
                         </div>
                     @empty
                         <div class="no-ruangan-type">

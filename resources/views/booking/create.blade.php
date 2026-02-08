@@ -371,6 +371,14 @@
 
 <div class="container pb-5">
     <div class="booking-form-container">
+        @if (session('error'))
+            <div class="alert-error">
+                <ul>
+                    <li>{{ session('error') }}</li>
+                </ul>
+            </div>
+        @endif
+
         @if ($errors->any())
             <div class="alert-error">
                 <ul>
@@ -563,14 +571,54 @@
         button.classList.add('selected');
         document.getElementById('jam_mulai').value = time;
 
+        // Update max SKS berdasarkan jam yang dipilih
+        updateMaxSks(time);
+
         // Show info
         document.getElementById('selectedTime').textContent = time;
         document.getElementById('timeSlotInfo').classList.add('show');
     }
 
-    // SKS slider handler
-    document.getElementById('sksSlider').addEventListener('input', function() {
-        const sks = this.value;
+    // Hitung max SKS berdasarkan jam mulai
+    function updateMaxSks(jamMulaiStr) {
+        // Parse jam mulai
+        const [hour, minute] = jamMulaiStr.split(':').map(Number);
+        const jamMulai = new Date();
+        jamMulai.setHours(hour, minute, 0);
+
+        // Jam operasional akhir: 18:00
+        const jamAkhir = new Date();
+        jamAkhir.setHours(18, 0, 0);
+
+        // Hitung selisih menit
+        const diffMinutes = (jamAkhir - jamMulai) / (1000 * 60);
+        
+        // Hitung max SKS (setiap SKS = 50 menit)
+        const maxSks = Math.floor(diffMinutes / 50);
+
+        // Update slider
+        const sksSlider = document.getElementById('sksSlider');
+        sksSlider.max = Math.max(1, maxSks); // Minimal 1 SKS
+
+        // Reset nilai slider jika melebihi max
+        if (parseInt(sksSlider.value) > maxSks) {
+            sksSlider.value = maxSks;
+            updateSksDisplay();
+        }
+
+        // Tampilkan warning jika max SKS terbatas
+        const timeSlotInfo = document.getElementById('timeSlotInfo');
+        if (maxSks < 12) {
+            timeSlotInfo.innerHTML = `Anda memilih jam <span class="jam-display" id="selectedTime">${jamMulaiStr}</span> • Maksimal durasi: <strong>${maxSks} SKS</strong> (${maxSks * 50} menit, selesai jam ${String(jamAkhir.getHours()).padStart(2, '0')}:${String(jamAkhir.getMinutes()).padStart(2, '0')})`;
+        } else {
+            timeSlotInfo.innerHTML = `Anda memilih jam <span class="jam-display" id="selectedTime">${jamMulaiStr}</span>`;
+        }
+    }
+
+    // Update display SKS
+    function updateSksDisplay() {
+        const sksSlider = document.getElementById('sksSlider');
+        const sks = sksSlider.value;
         const minutes = sks * 50;
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
@@ -588,6 +636,11 @@
         }
 
         document.getElementById('sksDuration').textContent = durationText;
+    }
+
+    // SKS slider handler
+    document.getElementById('sksSlider').addEventListener('input', function() {
+        updateSksDisplay();
     });
 
     // File upload handler
@@ -608,6 +661,7 @@
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
         const jamMulai = document.getElementById('jam_mulai').value;
         const jumlahSks = document.getElementById('jumlah_sks').value;
+        const sksSlider = document.getElementById('sksSlider');
 
         if (!jamMulai) {
             e.preventDefault();
@@ -618,6 +672,13 @@
         if (!jumlahSks || jumlahSks < 1) {
             e.preventDefault();
             alert('Silakan pilih durasi SKS!');
+            return false;
+        }
+
+        // Validasi SKS tidak melebihi max
+        if (parseInt(jumlahSks) > parseInt(sksSlider.max)) {
+            e.preventDefault();
+            alert(`SKS tidak boleh melebihi ${sksSlider.max} SKS untuk jam ${jamMulai}`);
             return false;
         }
     });
@@ -634,8 +695,12 @@
                 button.classList.add('selected');
                 document.getElementById('selectedTime').textContent = selectedTime;
                 document.getElementById('timeSlotInfo').classList.add('show');
+                updateMaxSks(selectedTime);
             }
         }
+
+        // Update display SKS
+        updateSksDisplay();
     });
 </script>
 @endpush

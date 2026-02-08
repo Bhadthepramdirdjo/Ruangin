@@ -23,11 +23,21 @@ class BookingController extends Controller
     public function create($id_ruangan)
     {
         $ruangan = Ruangan::findOrFail($id_ruangan);
-        return view('booking.create', compact('ruangan'));
+        $user = Auth::user();
+        
+        // Validasi: Mahasiswa tidak boleh booking LAB
+        if ($user->role === 'mahasiswa' && strtolower($ruangan->tipe) === 'lab') {
+            return redirect()
+                ->route('ruangan.list')
+                ->with('error', 'Maaf, Anda (mahasiswa) tidak dapat booking ruangan tipe Lab. Lab hanya dapat di-booking oleh Dosen.');
+        }
+        
+        return view('booking.create', compact('ruangan', 'user'));
     }
 
     public function store(Request $request)
     {
+        // Validasi dasar
         $validated = $request->validate(
             [
                 'ruangan_id'  => 'required|exists:ruangan,id',
@@ -46,6 +56,30 @@ class BookingController extends Controller
                 'jumlah_sks.max'   => 'Durasi maksimal 12 SKS.',
             ]
         );
+
+        // Validasi role: Mahasiswa tidak boleh booking Lab
+        $user = Auth::user();
+        $ruangan = Ruangan::findOrFail($validated['ruangan_id']);
+        
+        if ($user->role === 'mahasiswa' && strtolower($ruangan->tipe) === 'lab') {
+            return redirect()
+                ->back()
+                ->with('error', 'Maaf, Anda (mahasiswa) tidak dapat booking ruangan tipe Lab.');
+        }
+
+        // Validasi durasi SKS: jam_mulai + (jumlah_sks * 50 menit) tidak boleh melebihi jam 18:00
+        $jamMulai = Carbon::createFromFormat('H:i', $validated['jam_mulai']);
+        $durationMinutes = $validated['jumlah_sks'] * 50;
+        $jamSelesai = $jamMulai->copy()->addMinutes($durationMinutes);
+        $jamOperasionalAkhir = Carbon::createFromFormat('H:i', '18:00');
+
+        if ($jamSelesai->gt($jamOperasionalAkhir)) {
+            $maxSks = floor(($jamOperasionalAkhir->diffInMinutes($jamMulai)) / 50);
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', "SKS yang Anda pilih melebihi batas jam operasional. Jam mulai {$validated['jam_mulai']} hanya dapat di-booking maksimal {$maxSks} SKS (" . ($maxSks * 50) . " menit).");
+        }
 
         $validated['user_id'] = Auth::id();
 
