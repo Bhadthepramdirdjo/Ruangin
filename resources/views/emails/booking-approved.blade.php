@@ -72,21 +72,27 @@
         .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #e5e7eb;
+            align-items: center;
         }
         .info-row:last-child {
             border-bottom: none;
         }
         .info-label {
-            font-weight: 600;
-            color: #666;
+            font-weight: 700;
+            color: #475569;
             flex: 0 0 40%;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .info-value {
-            color: #333;
+            color: #1e293b;
             flex: 1;
             text-align: right;
+            font-size: 15px;
+            font-weight: 500;
         }
         .cta-button {
             display: inline-block;
@@ -150,7 +156,7 @@
             <div class="info-section">
                 <h3>📋 Detail Booking Anda</h3>
                 <div class="info-row">
-                    <div class="info-label">Ruangan</div>
+                    <div class="info-label">Nama Ruangan</div>
                     <div class="info-value"><strong>{{ $ruangan->nama_ruangan }}</strong></div>
                 </div>
                 <div class="info-row">

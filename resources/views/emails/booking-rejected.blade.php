@@ -84,21 +84,27 @@
         .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #e5e7eb;
+            align-items: center;
         }
         .info-row:last-child {
             border-bottom: none;
         }
         .info-label {
-            font-weight: 600;
-            color: #666;
+            font-weight: 700;
+            color: #475569;
             flex: 0 0 40%;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .info-value {
-            color: #333;
+            color: #1e293b;
             flex: 1;
             text-align: right;
+            font-size: 15px;
+            font-weight: 500;
         }
         .reason-box {
             background-color: #fef3c7;
@@ -210,7 +216,7 @@
             <div class="info-section">
                 <h3>📋 Detail Booking yang Ditolak</h3>
                 <div class="info-row">
-                    <div class="info-label">Ruangan</div>
+                    <div class="info-label">Nama Ruangan</div>
                     <div class="info-value"><strong>{{ $ruangan->nama_ruangan }}</strong></div>
                 </div>
                 <div class="info-row">
@@ -219,11 +225,11 @@
                 </div>
                 <div class="info-row">
                     <div class="info-label">Tanggal Booking</div>
-                    <div class="info-value">{{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }}</div>
+                    <div class="info-value"><strong>{{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }}</strong></div>
                 </div>
                 <div class="info-row">
                     <div class="info-label">Jam Peminjaman</div>
-                    <div class="info-value">{{ $booking->jam_mulai }} - {{ $booking->jam_selesai }}</div>
+                    <div class="info-value"><strong>{{ $booking->jam_mulai }} - {{ $booking->jam_selesai }}</strong></div>
                 </div>
             </div>
 
