@@ -85,7 +85,8 @@ class BookingController extends Controller
 
         // Simpan file dokumen (wajib ada karena rule "required")
         if ($request->hasFile('dokumen')) {
-            $path = $request->file('dokumen')->store('dokumen', 'public');
+            // Simpan ke storage lokal Laravel (public/storage/dokumen_booking/)
+            $path = $request->file('dokumen')->store('dokumen_booking', 'public');
             $validated['dokumen'] = $path;
         }
 
@@ -132,14 +133,11 @@ class BookingController extends Controller
         }
 
         $disk = Storage::disk('public');
-
         if (!$disk->exists($booking->dokumen)) {
             abort(404, 'File dokumen tidak ditemukan di server.');
         }
-
-        $fullPath = $disk->path($booking->dokumen);
-
-        return response()->file($fullPath);
+        
+        return response()->file($disk->path($booking->dokumen));
     }
 
     // ================== DOWNLOAD DOKUMEN ==================
@@ -155,26 +153,10 @@ class BookingController extends Controller
         }
 
         $disk = Storage::disk('public');
-
         if (!$disk->exists($booking->dokumen)) {
             abort(404, 'File dokumen tidak ditemukan di server.');
         }
-
-        $ext = pathinfo($booking->dokumen, PATHINFO_EXTENSION);
-
-        $ruanganName = optional($booking->ruangan)->nama_ruang ?? 'Ruangan';
-        $user        = $booking->user ?? null;
-        $userName    = $user ? ($user->nama ?? $user->name ?? 'User') : 'User';
-
-        $tanggal = $booking->tanggal
-            ? Carbon::parse($booking->tanggal)->format('Ymd')
-            : date('Ymd');
-
-        $slugRuangan = preg_replace('/[^A-Za-z0-9\-]+/', '_', $ruanganName);
-        $slugUser    = preg_replace('/[^A-Za-z0-9\-]+/', '_', $userName);
-
-        $filename = "Booking_{$slugRuangan}_{$tanggal}_{$slugUser}." . $ext;
-
-        return $disk->download($booking->dokumen, $filename);
+        
+        return $disk->download($booking->dokumen);
     }
 }
