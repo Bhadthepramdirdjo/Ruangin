@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
     Route::get('/booking/history', [BookingController::class, 'history'])->name('booking.history');
     Route::get('/booking/api/available-slots', [BookingController::class, 'getAvailableSlots'])->name('booking.available-slots');
+    Route::get('/booking/api/unavailable-dates', [BookingController::class, 'getUnavailableDates'])->name('booking.unavailable-dates');
 
         // Dokumen booking (lihat & download)
     Route::get('/booking/{booking}/dokumen', [BookingController::class, 'showDokumen'])

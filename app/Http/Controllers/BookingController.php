@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Ruangan;
+use App\Services\GoogleCalendarService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -65,6 +66,17 @@ class BookingController extends Controller
             return redirect()
                 ->back()
                 ->with('error', 'Maaf, Anda (mahasiswa) tidak dapat booking ruangan tipe Lab.');
+        }
+
+        // Validasi: Cek apakah tanggal adalah hari libur atau akhir pekan
+        $calendarService = new GoogleCalendarService();
+        if ($calendarService->isHolidayOrWeekend($validated['tanggal'])) {
+            $carbonDate = Carbon::parse($validated['tanggal']);
+            $dayName = $carbonDate->translatedFormat('l');
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', "Maaf, tanggal {$carbonDate->format('d/m/Y')} ({$dayName}) adalah hari libur, akhir pekan, atau tanggal merah. Booking tidak dapat dilakukan pada hari ini.");
         }
 
         // Validasi durasi SKS: jam_mulai + (jumlah_sks * 50 menit) tidak boleh melebihi jam 18:00
@@ -154,7 +166,30 @@ class BookingController extends Controller
         return response()->json([
             'occupied_slots' => array_unique($occupiedSlots),
             'total_occupied' => count(array_unique($occupiedSlots))
-        ]);
+        ])->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+          ->header('Pragma', 'no-cache')
+          ->header('Expires', '0');
+    }
+
+    // ================== GET UNAVAILABLE DATES (HOLIDAYS + WEEKENDS) ==================
+    public function getUnavailableDates(Request $request)
+    {
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+
+        if (!$startDate || !$endDate) {
+            return response()->json(['error' => 'start_date dan end_date diperlukan'], 400);
+        }
+
+        $calendarService = new GoogleCalendarService();
+        $unavailableDates = $calendarService->getUnavailableDates($startDate, $endDate);
+
+        return response()->json([
+            'unavailable_dates' => $unavailableDates,
+            'total_unavailable' => count($unavailableDates)
+        ])->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+          ->header('Pragma', 'no-cache')
+          ->header('Expires', '0');
     }
 
     public function myBookings()

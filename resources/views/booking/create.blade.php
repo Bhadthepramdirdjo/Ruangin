@@ -162,25 +162,58 @@
 
     /* SKS SELECTOR */
     .sks-selector {
-        background: rgba(30,41,59,0.3);
-        border: 1px solid rgba(148,163,184,0.2);
+        background: rgba(30,41,59,0.5);
+        border: 2px solid rgba(99,102,241,0.3);
         border-radius: 12px;
-        padding: 1.25rem;
+        padding: 1.5rem;
         margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .sks-selector.has-time {
+        background: rgba(30,41,59,0.8);
+        border-color: rgba(99,102,241,0.6);
+        box-shadow: 0 0 20px rgba(99,102,241,0.2);
     }
 
     .sks-input-group {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        margin-top: 0.75rem;
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .sks-slider-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .sks-slider-track {
+        position: relative;
+        height: 12px;
+        background: rgba(148,163,184,0.15);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .sks-slider-fill {
+        position: absolute;
+        height: 100%;
+        background: linear-gradient(90deg, #6366f1, #0ea5e9);
+        border-radius: 6px;
+        pointer-events: none;
+        left: 0;
     }
 
     .sks-slider {
-        flex: 1;
-        height: 8px;
-        border-radius: 5px;
-        background: linear-gradient(to right, rgba(99,102,241,0.3), rgba(56,189,248,0.3));
+        position: relative;
+        z-index: 5;
+        width: 100%;
+        height: 12px;
+        border-radius: 6px;
+        background: transparent;
         outline: none;
         -webkit-appearance: none;
         appearance: none;
@@ -189,22 +222,61 @@
     .sks-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 24px;
-        height: 24px;
+        width: 26px;
+        height: 26px;
         border-radius: 50%;
         background: linear-gradient(135deg, #6366f1, #0ea5e9);
         cursor: pointer;
-        box-shadow: 0 0 12px rgba(99,102,241,0.4);
+        box-shadow: 0 0 16px rgba(99,102,241,0.6), 0 0 30px rgba(56,189,248,0.3);
+        border: 2px solid rgba(255,255,255,0.3);
+        transition: all 0.2s ease;
+    }
+
+    .sks-slider::-webkit-slider-thumb:hover {
+        width: 30px;
+        height: 30px;
+        box-shadow: 0 0 20px rgba(99,102,241,0.8), 0 0 40px rgba(56,189,248,0.5);
+        border-color: rgba(255,255,255,0.6);
+    }
+
+    .sks-slider::-webkit-slider-thumb:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
     }
 
     .sks-slider::-moz-range-thumb {
-        width: 24px;
-        height: 24px;
+        width: 26px;
+        height: 26px;
         border-radius: 50%;
         background: linear-gradient(135deg, #6366f1, #0ea5e9);
         cursor: pointer;
-        border: none;
-        box-shadow: 0 0 12px rgba(99,102,241,0.4);
+        border: 2px solid rgba(255,255,255,0.3);
+        box-shadow: 0 0 16px rgba(99,102,241,0.6), 0 0 30px rgba(56,189,248,0.3);
+        transition: all 0.2s ease;
+    }
+
+    .sks-slider::-moz-range-thumb:hover {
+        width: 30px;
+        height: 30px;
+        box-shadow: 0 0 20px rgba(99,102,241,0.8), 0 0 40px rgba(56,189,248,0.5);
+        border-color: rgba(255,255,255,0.6);
+    }
+
+    .sks-slider::-moz-range-thumb:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    .sks-slider:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .sks-slider-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: #64748b;
     }
 
     .sks-display {
@@ -356,6 +428,202 @@
     .file-upload-icon {
         margin-right: 0.4rem;
     }
+
+    /* CUSTOM DATE PICKER */
+    .form-label {
+        display: block;
+        margin-bottom: 0.75rem;
+        color: #e5e7eb;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .flatpickr-calendar {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.98));
+        border: 2px solid rgba(99, 102, 241, 0.6);
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 40px rgba(99, 102, 241, 0.3);
+        padding: 1rem;
+        width: 100% !important;
+        max-width: 380px !important;
+    }
+
+    .flatpickr-calendar .numInputWrapper {
+        width: auto;
+    }
+
+    .flatpickr-calendar .flatpickr-innerContainer {
+        width: 100%;
+    }
+
+    .flatpickr-calendar .dayContainer {
+        width: 100%;
+        display: grid !important;
+        grid-template-columns: repeat(7, 1fr) !important;
+        gap: 0.5rem !important;
+        padding: 0 !important;
+    }
+
+    .flatpickr-calendar .flatpickr-month {
+        background: transparent;
+        margin-bottom: 1rem;
+    }
+
+    .flatpickr-calendar .flatpickr-months {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .flatpickr-calendar .flatpickr-months .flatpickr-month {
+        color: #f0f9ff;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        flex: 1;
+        text-align: center;
+    }
+
+    .flatpickr-calendar .flatpickr-months .flatpickr-prev-month,
+    .flatpickr-calendar .flatpickr-months .flatpickr-next-month {
+        color: #22d3ee;
+        fill: #22d3ee;
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .flatpickr-calendar .flatpickr-months .flatpickr-prev-month:hover,
+    .flatpickr-calendar .flatpickr-months .flatpickr-next-month:hover {
+        color: #0ea5e9;
+        fill: #0ea5e9;
+        background: rgba(99, 102, 241, 0.2);
+    }
+
+    .flatpickr-calendar .flatpickr-weekdays {
+        background: rgba(99, 102, 241, 0.1);
+        border-radius: 8px;
+        padding: 0.75rem 0;
+        margin-bottom: 0.5rem;
+        display: flex !important;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .flatpickr-calendar .flatpickr-weekdays .flatpickr-weekday {
+        color: #22d3ee;
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        text-align: center;
+        padding: 0.5rem 0;
+        flex: 1;
+        display: inline-block;
+    }
+
+    .flatpickr-calendar .dayContainer {
+        gap: 0.5rem;
+    }
+
+    .flatpickr-calendar .dayContainer .flatpickr-day {
+        color: #e0e7ff;
+        background: rgba(99, 102, 241, 0.15);
+        border: 2px solid rgba(99, 102, 241, 0.2);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        font-weight: 600;
+        font-size: 0.95rem;
+        width: 100% !important;
+        padding: 0.5rem 0 !important;
+        margin: 0 !important;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .flatpickr-calendar .dayContainer .flatpickr-day:hover:not(.disabled) {
+        background: rgba(99, 102, 241, 0.35);
+        border-color: rgba(99, 102, 241, 0.8);
+        color: #f0f9ff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .flatpickr-calendar .dayContainer .flatpickr-day.selected {
+        background: linear-gradient(135deg, #6366f1, #0ea5e9);
+        border-color: #22d3ee;
+        color: #0b1120;
+        font-weight: 700;
+        box-shadow: 0 0 16px rgba(99, 102, 241, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
+    }
+
+    .flatpickr-calendar .dayContainer .flatpickr-day.today {
+        border-color: rgba(56, 189, 248, 0.8);
+        background: rgba(56, 189, 248, 0.2);
+        color: #22d3ee;
+        font-weight: 700;
+    }
+
+    /* Disabled dates styling - holidays & sundays */
+    .flatpickr-calendar .dayContainer .flatpickr-day.disabled,
+    .flatpickr-calendar .dayContainer .flatpickr-day.flatpickr-disabled {
+        color: #ff6b6b;
+        background: rgba(239, 68, 68, 0.25);
+        cursor: not-allowed;
+        border: 2px solid rgba(239, 68, 68, 0.6);
+        opacity: 1;
+        font-weight: 600;
+    }
+
+    .flatpickr-calendar .dayContainer .flatpickr-day.disabled:hover,
+    .flatpickr-calendar .dayContainer .flatpickr-day.flatpickr-disabled:hover {
+        background: rgba(239, 68, 68, 0.35);
+        border-color: rgba(239, 68, 68, 0.9);
+        color: #ff8787;
+    }
+
+    .flatpickr-calendar .dayContainer span.flatpickr-day.inRange {
+        background: rgba(99, 102, 241, 0.15);
+        color: #e0e7ff;
+    }
+
+    .flatpickr-calendar .dayContainer .flatpickr-day.prevMonthDay,
+    .flatpickr-calendar .dayContainer .flatpickr-day.nextMonthDay {
+        color: #475569;
+        background: rgba(30, 41, 59, 0.3);
+        border-color: transparent;
+        opacity: 0.5;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(30, 41, 59, 0.5);
+        border: 2px solid rgba(99, 102, 241, 0.3);
+        border-radius: 8px;
+        color: #e5e7eb;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        outline: none;
+        background: rgba(30, 41, 59, 0.7);
+        border-color: rgba(99, 102, 241, 0.8);
+        box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .form-control::placeholder {
+        color: #64748b;
+    }
 </style>
 @endpush
 
@@ -372,21 +640,30 @@
 <div class="container pb-5">
     <div class="booking-form-container">
         @if (session('error'))
-            <div class="alert-error">
-                <ul>
-                    <li>{{ session('error') }}</li>
-                </ul>
-            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showError("{{ session('error') }}", 'Pemesanan Ditolak');
+                });
+            </script>
+        @endif
+
+        @if (session('success'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    showSuccess("{{ session('success') }}", 'Berhasil', 3000);
+                });
+            </script>
         @endif
 
         @if ($errors->any())
-            <div class="alert-error">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const errors = {!! json_encode($errors->all()) !!};
+                    if (errors.length > 0) {
+                        showError(errors[0], 'Validasi Gagal');
+                    }
+                });
+            </script>
         @endif
 
         <div class="ruangan-info-box">
@@ -408,11 +685,13 @@
             <div class="form-group">
                 <label for="tanggal" class="form-label">📅 Tanggal Pesan</label>
                 <input 
-                    type="date" 
+                    type="text" 
                     id="tanggal" 
                     name="tanggal" 
                     class="form-control @error('tanggal') border-red-500 @enderror"
+                    placeholder="Pilih tanggal"
                     value="{{ old('tanggal') }}"
+                    readonly
                     required
                 >
                 @error('tanggal')
@@ -443,17 +722,27 @@
             <div class="form-group">
                 <label class="form-label">⏱️ Durasi Penggunaan (1 SKS = 50 menit)</label>
                 
-                <div class="sks-selector">
+                <div class="sks-selector" id="sksSelector">
                     <div class="sks-input-group">
-                        <input 
-                            type="range" 
-                            id="sksSlider" 
-                            class="sks-slider"
-                            min="1" 
-                            max="12" 
-                            value="{{ old('jumlah_sks', 1) }}"
-                            step="1"
-                        >
+                        <div class="sks-slider-wrapper">
+                            <div class="sks-slider-track">
+                                <div class="sks-slider-fill" id="sksSliderFill"></div>
+                            </div>
+                            <input 
+                                type="range" 
+                                id="sksSlider" 
+                                class="sks-slider"
+                                min="1" 
+                                max="12" 
+                                value="{{ old('jumlah_sks', 1) }}"
+                                step="1"
+                                disabled
+                            >
+                            <div class="sks-slider-labels">
+                                <span>1 SKS</span>
+                                <span id="sksMaxLabel">12 SKS</span>
+                            </div>
+                        </div>
                         <div class="sks-display">
                             <div class="sks-value" id="sksValue">{{ old('jumlah_sks', 1) }}</div>
                             <div class="sks-duration" id="sksDuration">50 menit</div>
@@ -525,6 +814,93 @@
 
 @push('scripts')
 <script>
+    let unavailableDates = [];
+
+    // Load unavailable dates (holidays + weekends)
+    async function loadUnavailableDates() {
+        try {
+            const today = new Date();
+            // Format as YYYY-MM-DD using LOCAL date (not UTC)
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const startDate = `${year}-${month}-${day}`;
+            
+            // Get dates for the next year
+            const endDate = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
+            const endYear = endDate.getFullYear();
+            const endMonth = String(endDate.getMonth() + 1).padStart(2, '0');
+            const endDay = String(endDate.getDate()).padStart(2, '0');
+            const endDateStr = `${endYear}-${endMonth}-${endDay}`;
+
+            // Add cache busting parameter to force fresh data
+            const timestamp = new Date().getTime();
+            const response = await fetch(`/booking/api/unavailable-dates?start_date=${startDate}&end_date=${endDateStr}&_t=${timestamp}`);
+            const data = await response.json();
+            
+            console.log('Loaded unavailable dates:', data.unavailable_dates ? data.unavailable_dates.length : 0, 'dates');
+            console.log('Unavailable dates full list:', data.unavailable_dates);
+            
+            if (data.unavailable_dates) {
+                unavailableDates = data.unavailable_dates;
+                console.log('Sample dates:', unavailableDates.slice(0, 10));
+                applyDateRestrictions();
+            }
+        } catch (error) {
+            console.error('Gagal memuat tanggal yang tidak tersedia:', error);
+        }
+    }
+
+    // Apply date restrictions to date input with Flatpickr
+    function applyDateRestrictions() {
+        const tanggalInput = document.getElementById('tanggal');
+        const today = new Date();
+        
+        console.log('=== Flatpickr Debug Info ===');
+        console.log('Total unavailable dates:', unavailableDates.length);
+        console.log('Sample unavailable dates:', unavailableDates.slice(0, 20));
+        
+        // Count Sundays in unavailable
+        const februarySundays = ['2026-02-01', '2026-02-08', '2026-02-15', '2026-02-22'];
+        const februaryMondays = ['2026-02-02', '2026-02-09', '2026-02-16', '2026-02-23'];
+        
+        console.log('Sundays in unavailable:', februarySundays.filter(d => unavailableDates.includes(d)));
+        console.log('Mondays in unavailable:', februaryMondays.filter(d => unavailableDates.includes(d)));
+        
+        // Initialize Flatpickr dengan unavailable dates
+        flatpickr(tanggalInput, {
+            locale: 'id',
+            minDate: today,
+            maxDate: new Date(today.getFullYear() + 1, today.getMonth(), today.getDate()),
+            dateFormat: 'Y-m-d',
+            disable: [
+                function(date) {
+                    // Format date as YYYY-MM-DD using LOCAL date (not UTC)
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const dateStr = `${year}-${month}-${day}`;
+                    
+                    return unavailableDates.includes(dateStr);
+                }
+            ],
+            onDayCreate: function(dObj, dStr, fp, dayElem) {
+                // Format date as YYYY-MM-DD using LOCAL date (not UTC)
+                const year = dayElem.dateObj.getFullYear();
+                const month = String(dayElem.dateObj.getMonth() + 1).padStart(2, '0');
+                const day = String(dayElem.dateObj.getDate()).padStart(2, '0');
+                const dateStr = `${year}-${month}-${day}`;
+                
+                // Add custom class untuk dates yang unavailable
+                if (unavailableDates.includes(dateStr)) {
+                    dayElem.classList.add('unavailable-date');
+                }
+            }
+        });
+
+        console.log('Flatpickr initialized');
+    }
+
     // Generate time slots dari 07:00 sampai 17:00 dengan interval 50 menit (1 SKS)
     function generateTimeSlots() {
         const grid = document.getElementById('timeSlotsGrid');
@@ -609,7 +985,7 @@
     // Select time slot
     function selectTimeSlot(time, button) {
         if (button.disabled) {
-            alert('Waktu ini sudah dibooking. Silakan pilih waktu lain.');
+            showWarning('Waktu ini sudah dibooking. Silakan pilih waktu lain.', 'Waktu Sudah Booked');
             return;
         }
 
@@ -622,8 +998,17 @@
         button.classList.add('selected');
         document.getElementById('jam_mulai').value = time;
 
+        // Reset SKS slider ke 1 ketika jam berubah
+        const sksSlider = document.getElementById('sksSlider');
+        sksSlider.value = 1;
+        document.getElementById('jumlah_sks').value = 1;
+        document.getElementById('sksValue').textContent = 1;
+
         // Update max SKS berdasarkan jam yang dipilih
         updateMaxSks(time);
+
+        // Update display SKS setelah reset
+        updateSksDisplay();
 
         // Show info
         document.getElementById('selectedTime').textContent = time;
@@ -645,17 +1030,25 @@
         const diffMinutes = (jamAkhir - jamMulai) / (1000 * 60);
         
         // Hitung max SKS (setiap SKS = 50 menit)
-        const maxSks = Math.floor(diffMinutes / 50);
+        const maxSks = Math.max(1, Math.floor(diffMinutes / 50));
 
         // Update slider
         const sksSlider = document.getElementById('sksSlider');
-        sksSlider.max = Math.max(1, maxSks); // Minimal 1 SKS
-
+        const sksSelector = document.getElementById('sksSelector');
+        
+        // Enable slider dan set max value
+        sksSlider.disabled = false;
+        sksSlider.max = maxSks;
+        sksSelector.classList.add('has-time');
+        
         // Reset nilai slider jika melebihi max
         if (parseInt(sksSlider.value) > maxSks) {
             sksSlider.value = maxSks;
             updateSksDisplay();
         }
+
+        // Update label max SKS
+        document.getElementById('sksMaxLabel').textContent = `${maxSks} SKS`;
 
         // Tampilkan warning jika max SKS terbatas
         const timeSlotInfo = document.getElementById('timeSlotInfo');
@@ -669,13 +1062,18 @@
     // Update display SKS
     function updateSksDisplay() {
         const sksSlider = document.getElementById('sksSlider');
-        const sks = sksSlider.value;
+        const sks = parseInt(sksSlider.value);
+        const maxSks = parseInt(sksSlider.max);
         const minutes = sks * 50;
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
 
         document.getElementById('sksValue').textContent = sks;
         document.getElementById('jumlah_sks').value = sks;
+        
+        // Update slider fill width
+        const fillPercentage = (sks / maxSks) * 100;
+        document.getElementById('sksSliderFill').style.width = fillPercentage + '%';
 
         let durationText = '';
         if (hours > 0 && mins > 0) {
@@ -718,29 +1116,46 @@
         const jamMulai = document.getElementById('jam_mulai').value;
         const jumlahSks = document.getElementById('jumlah_sks').value;
         const sksSlider = document.getElementById('sksSlider');
+        const tanggal = document.getElementById('tanggal').value;
+
+        console.log('Form submit - tanggal:', tanggal, 'unavailableDates:', unavailableDates);
+
+        if (!tanggal) {
+            e.preventDefault();
+            showWarning('Silakan pilih tanggal terlebih dahulu!', 'Tanggal Belum Dipilih');
+            return false;
+        }
+
+        if (unavailableDates.includes(tanggal)) {
+            e.preventDefault();
+            showWarning('Tanggal yang dipilih adalah hari libur, akhir pekan, atau tanggal merah. Silakan pilih tanggal lain.', 'Tanggal Tidak Tersedia');
+            console.warn('Booking pada tanggal tidak tersedia:', tanggal);
+            return false;
+        }
 
         if (!jamMulai) {
             e.preventDefault();
-            alert('Silakan pilih jam mulai terlebih dahulu!');
+            showWarning('Silakan pilih jam mulai terlebih dahulu!', 'Jam Belum Dipilih');
             return false;
         }
 
         if (!jumlahSks || jumlahSks < 1) {
             e.preventDefault();
-            alert('Silakan pilih durasi SKS!');
+            showWarning('Silakan pilih durasi SKS!', 'SKS Belum Dipilih');
             return false;
         }
 
         // Validasi SKS tidak melebihi max
         if (parseInt(jumlahSks) > parseInt(sksSlider.max)) {
             e.preventDefault();
-            alert(`SKS tidak boleh melebihi ${sksSlider.max} SKS untuk jam ${jamMulai}`);
+            showWarning(`SKS tidak boleh melebihi ${sksSlider.max} SKS untuk jam ${jamMulai}`, 'SKS Melebihi Batas');
             return false;
         }
     });
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', function() {
+        loadUnavailableDates();
         generateTimeSlots();
         loadOccupiedSlots();
 
@@ -756,7 +1171,7 @@
             }
         }
 
-        // Update display SKS
+        // Update display SKS dan slider fill
         updateSksDisplay();
     });
 </script>

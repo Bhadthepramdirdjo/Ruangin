@@ -11,6 +11,10 @@
         rel="stylesheet"
     >
 
+    {{-- Flatpickr Date Picker --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
     <style>
         :root {
             --bg-main: #050816;
@@ -358,7 +362,12 @@ document.addEventListener('DOMContentLoaded', function () {
     <small>© {{ date('Y') }} Ruangin.app · Sistem Booking Ruangan Kampus</small>
 </footer>
 
+<!-- Custom Notification Component -->
+@include('components.notification')
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 @stack('scripts')
 </body>
 </html>
