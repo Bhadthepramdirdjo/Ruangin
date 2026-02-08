@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Ruangan;
 use App\Models\User;
+use App\Notifications\BookingApproved;
+use App\Notifications\BookingRejected;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -167,7 +169,32 @@ class AdminDashboardController extends Controller
         $booking = Booking::findOrFail($id);
         $booking->update(['status' => 'disetujui', 'diubah' => Carbon::now()]);
 
-        return redirect()->route('admin.booking.index')->with('success', 'Booking disetujui.');
+        // Auto-reject conflicting bookings (same ruangan, same tanggal, overlapping time)
+        $jamMulaiApproved = Carbon::createFromTimeString($booking->jam_mulai);
+        $jamSelesaiApproved = $jamMulaiApproved->copy()->addMinutes($booking->jumlah_sks * 50);
+
+        $allConflictingBookings = Booking::where('ruangan_id', $booking->ruangan_id)
+            ->where('tanggal', $booking->tanggal)
+            ->where('id', '!=', $booking->id)
+            ->whereIn('status', ['pending'])
+            ->get();
+
+        foreach ($allConflictingBookings as $conflicting) {
+            $jamMulaiConflict = Carbon::createFromTimeString($conflicting->jam_mulai);
+            $jamSelesaiConflict = $jamMulaiConflict->copy()->addMinutes($conflicting->jumlah_sks * 50);
+
+            // Check overlap: approved_start < conflict_end AND conflict_start < approved_end
+            if ($jamMulaiApproved->lt($jamSelesaiConflict) && $jamMulaiConflict->lt($jamSelesaiApproved)) {
+                $conflicting->update(['status' => 'ditolak', 'diubah' => Carbon::now()]);
+                // Send rejection notification to conflicting booking user
+                $conflicting->user->notify(new BookingRejected($conflicting, 'Ruangan sudah dipesan oleh pengguna lain pada waktu tersebut.'));
+            }
+        }
+
+        // Send approval notification email
+        $booking->user->notify(new BookingApproved($booking));
+
+        return redirect()->route('admin.booking.index')->with('success', 'Booking disetujui & email notifikasi terkirim.');
     }
 
     public function bookingReject($id)
@@ -175,7 +202,10 @@ class AdminDashboardController extends Controller
         $booking = Booking::findOrFail($id);
         $booking->update(['status' => 'ditolak', 'diubah' => Carbon::now()]);
 
-        return redirect()->route('admin.booking.index')->with('success', 'Booking ditolak.');
+        // Send rejection notification email
+        $booking->user->notify(new BookingRejected($booking));
+
+        return redirect()->route('admin.booking.index')->with('success', 'Booking ditolak & email notifikasi terkirim.');
     }
 
     // User - List & Manage Role
