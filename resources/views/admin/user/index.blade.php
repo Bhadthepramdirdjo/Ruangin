@@ -385,7 +385,7 @@
                                 <td>
                                     <div class="user-info">
                                         @if($user->avatar)
-                                            <img src="{{ asset('storage/' . $user->avatar) }}"
+                                            <img src="{{ str_starts_with($user->avatar, 'http') ? $user->avatar : asset('storage/' . $user->avatar) }}"
                                                  alt="Avatar" class="table-avatar">
                                         @else
                                             <div class="table-avatar-fallback">

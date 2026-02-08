@@ -34,18 +34,21 @@ class ProfileController extends Controller
         $user->nama = $request->nama;
         $user->email = $request->email;
 
-        // Update Password (hanya jika diisi)
+        // Update Avatar (jika ada upload baru)
         if ($request->hasFile('avatar')) {
-        // 1. Hapus foto lama jika ada (dan bukan foto default)
-        if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
-            Storage::disk('public')->delete($user->avatar);
-        }
+            // Upload ke Cloudinary
+            $response = cloudinary()->uploadApi()->upload($request->file('avatar')->getRealPath(), [
+                'folder' => 'avatars',
+                'transformation' => [
+                    'quality' => 'auto',
+                    'fetch_format' => 'auto'
+                ]
+            ]);
+            
+            $uploadedFileUrl = $response['secure_url'];
 
-        // 2. Simpan foto baru ke folder 'avatars' di public disk
-        $path = $request->file('avatar')->store('avatars', 'public');
-
-        // 3. Simpan path-nya ke database
-        $user->avatar = $path;
+            // Simpan URL Cloudinary ke database
+            $user->avatar = $uploadedFileUrl;
         }
 
         if ($request->filled('password')) {

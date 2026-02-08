@@ -151,7 +151,7 @@
                     <div>
                         <label class="avatar-wrapper-atas shadow-lg me-4">
                             <img
-                                src="{{ $user->avatar ? asset('storage/' . $user->avatar) : '#' }}"
+                                    src="{{ $user->avatar ? (str_starts_with($user->avatar, 'http') ? $user->avatar : asset('storage/' . $user->avatar)) : '#' }}"
                                 alt="Profil"
                                 class="avatar-image {{ $user->avatar ? '' : 'd-none' }}">
                             <div id="avatar-initial" class="{{ $user->avatar ? 'd-none' : '' }}"
@@ -175,7 +175,7 @@
                             <label class="avatar-wrapper shadow-lg me-4" for="avatar-input">
 
                                 <img id="avatar-preview"
-                                     src="{{ $user->avatar ? asset('storage/' . $user->avatar) : '#' }}"
+                                         src="{{ $user->avatar ? (str_starts_with($user->avatar, 'http') ? $user->avatar : asset('storage/' . $user->avatar)) : '#' }}"
                                      alt="Profil"
                                      class="avatar-image {{ $user->avatar ? '' : 'd-none' }}">
 

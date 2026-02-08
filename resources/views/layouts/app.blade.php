@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
                         @if(auth()->user()->avatar)
-                            <img src="{{ asset('storage/' . auth()->user()->avatar) }}" 
+                            <img src="{{ str_starts_with(auth()->user()->avatar, 'http') ? auth()->user()->avatar : asset('storage/' . auth()->user()->avatar) }}" 
                                 alt="User" class="rounded-circle object-fit-cover" 
                                 style="width: 35px; height: 35px; border: 2px solid #a855f7;">
                         @else

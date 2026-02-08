@@ -390,7 +390,7 @@
                                 <td>
                                     <div class="user-info">
                                         @if($booking->user && $booking->user->avatar)
-                                            <img src="{{ asset('storage/' . $booking->user->avatar) }}"
+                                            <img src="{{ str_starts_with($booking->user->avatar, 'http') ? $booking->user->avatar : asset('storage/' . $booking->user->avatar) }}"
                                                  alt="Avatar" class="table-avatar">
                                         @else
                                             <div class="table-avatar-fallback">
