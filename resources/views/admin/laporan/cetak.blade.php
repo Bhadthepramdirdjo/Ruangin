@@ -17,7 +17,7 @@
 
     <div class="header">
         <h2>RUANGIN.APP</h2>
-        <h3>Laporan Peminjaman Ruangan</h3>
+        <p style="text-align: center; font-weight: bold; font-style: normal;">Laporan Peminjaman Ruangan</p>
         <p style="text-align: center;">Bulan: {{ \Carbon\Carbon::create()->month($bulan)->locale('id')->isoFormat('MMMM') }} {{ $tahun }}</p>
     </div>
 
@@ -60,10 +60,24 @@
     </table>
 
     <div class="footer">
-        <p>Dicetak pada: {{ date('d/m/Y H:i') }}</p>
+        <p>Dicetak pada: <span id="waktuCetak">{{ date('d/m/Y H:i') }}</span></p>
         <br><br><br>
         <p><strong>Administrator</strong></p>
     </div>
 
-</body>
-</html>
+    <script>
+        function updateWaktuCetak() {
+            const now = new Date();
+            const tanggal = String(now.getDate()).padStart(2, '0');
+            const bulan = String(now.getMonth() + 1).padStart(2, '0');
+            const tahun = now.getFullYear();
+            const jam = String(now.getHours()).padStart(2, '0');
+            const menit = String(now.getMinutes()).padStart(2, '0');
+
+            document.getElementById('waktuCetak').textContent = `${tanggal}/${bulan}/${tahun} ${jam}:${menit}`;
+        }
+
+        // Update waktu saat halaman dimuat dan setiap detik
+        updateWaktuCetak();
+        setInterval(updateWaktuCetak, 1000);
+    </script>
