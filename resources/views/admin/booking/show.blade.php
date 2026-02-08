@@ -245,7 +245,13 @@
 
             <div class="detail-section">
                 <div class="detail-label">Jam Peminjaman</div>
-                <div class="detail-value">{{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->jam_mulai)->format('H:i') ?? $booking->jam_mulai }} - {{ \Carbon\Carbon::createFromFormat('H:i:s', $booking->jam_selesai)->format('H:i') ?? $booking->jam_selesai }}</div>
+                <div class="detail-value">
+                    @php
+                        $jamMulai = \Carbon\Carbon::parse($booking->tanggal . ' ' . $booking->jam_mulai);
+                        $jamSelesai = $jamMulai->copy()->addMinutes($booking->jumlah_sks * 50);
+                    @endphp
+                    {{ $jamMulai->format('H:i') }} - {{ $jamSelesai->format('H:i') }} ({{ $booking->jumlah_sks }} SKS)
+                </div>
             </div>
 
             <div class="detail-section">

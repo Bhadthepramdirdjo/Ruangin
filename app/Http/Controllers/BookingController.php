@@ -33,7 +33,7 @@ class BookingController extends Controller
                 'ruangan_id'  => 'required|exists:ruangan,id',
                 'tanggal'     => 'required|date|after_or_equal:today',
                 'jam_mulai'   => 'required|date_format:H:i',
-                'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+                'jumlah_sks'  => 'required|integer|min:1|max:12',
                 'keperluan'   => 'required|string|max:500',
                 'dokumen'     => 'required|file|mimes:pdf|max:5120', // max 5MB
             ],
@@ -41,6 +41,9 @@ class BookingController extends Controller
                 'dokumen.required' => 'Lampiran surat peminjaman wajib diunggah.',
                 'dokumen.mimes'    => 'Lampiran harus berupa file PDF.',
                 'dokumen.max'      => 'Ukuran lampiran maksimal 5MB.',
+                'jumlah_sks.required' => 'Pilih durasi SKS yang diinginkan.',
+                'jumlah_sks.min'   => 'Durasi minimal 1 SKS (50 menit).',
+                'jumlah_sks.max'   => 'Durasi maksimal 12 SKS.',
             ]
         );
 

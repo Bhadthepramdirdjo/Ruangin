@@ -313,7 +313,19 @@
                 <div class="booking-meta-row">
                     <strong>Jam:</strong>
                     <span class="value">
-                        {{ substr($booking->jam_mulai,0,5) }} - {{ substr($booking->jam_selesai,0,5) }}
+                        @php
+                            // Hitung jam selesai berdasarkan jam_mulai + (jumlah_sks * 50 menit)
+                            $jamMulai = \Carbon\Carbon::parse($booking->tanggal . ' ' . $booking->jam_mulai);
+                            $jamSelesai = $jamMulai->addMinutes($booking->jumlah_sks * 50);
+                        @endphp
+                        {{ $booking->jam_mulai }} - {{ $jamSelesai->format('H:i') }}
+                    </span>
+                </div>
+
+                <div class="booking-meta-row">
+                    <strong>Durasi:</strong>
+                    <span class="value">
+                        {{ $booking->jumlah_sks }} SKS ({{ $booking->jumlah_sks * 50 }} menit)
                     </span>
                 </div>
 

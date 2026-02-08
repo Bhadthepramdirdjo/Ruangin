@@ -16,7 +16,7 @@ class Booking extends Model
         'ruangan_id',
         'tanggal',
         'jam_mulai',
-        'jam_selesai',
+        'jumlah_sks',
         'keperluan',
         'dokumen',
         'status',

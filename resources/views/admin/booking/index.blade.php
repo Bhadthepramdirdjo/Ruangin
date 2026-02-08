@@ -412,9 +412,11 @@
                                 <td>{{ \Carbon\Carbon::parse($booking->tanggal)->format('d-m-Y') }}</td>
 
                                 <td>
-                                    {{ \Carbon\Carbon::parse($booking->jam_mulai)->format('H:i') }}
-                                    -
-                                    {{ \Carbon\Carbon::parse($booking->jam_selesai)->format('H:i') }}
+                                    @php
+                                        $jamMulai = \Carbon\Carbon::parse($booking->tanggal . ' ' . $booking->jam_mulai);
+                                        $jamSelesai = $jamMulai->copy()->addMinutes($booking->jumlah_sks * 50);
+                                    @endphp
+                                    {{ $jamMulai->format('H:i') }} - {{ $jamSelesai->format('H:i') }}
                                 </td>
 
                                 <td>
