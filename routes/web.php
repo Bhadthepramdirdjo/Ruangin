@@ -7,6 +7,7 @@ use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminLaporanController;
 
 
 // =====================
@@ -88,5 +89,10 @@ Route::middleware(['auth', 'is.admin'])->prefix('admin')->group(function () {
     Route::put('/user/{id}/role', [AdminDashboardController::class, 'userUpdateRole'])->name('admin.user.update-role');
     // Verify/unverify dosen accounts
     Route::put('/user/{id}/verify', [AdminDashboardController::class, 'userVerify'])->name('admin.user.verify');
+
+    // Laporan
+    Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('admin.laporan.index');
+    Route::get('/laporan/cetak', [AdminLaporanController::class, 'cetak'])->name('admin.laporan.cetak');
+    Route::get('/laporan/pdf', [AdminLaporanController::class, 'downloadPdf'])->name('admin.laporan.pdf');
 });
 

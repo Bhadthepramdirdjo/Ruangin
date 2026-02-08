@@ -16,4 +16,8 @@
        style="display: inline-flex; align-items: center; gap: 0.5rem; padding-bottom: 0.75rem; color: #cbd5f5; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; border-bottom: 3px solid {{ request()->routeIs('admin.user.*') ? '#22d3ee' : 'transparent' }}; {{ request()->routeIs('admin.user.*') ? 'color: #22d3ee;' : '' }}">
         👥 User
     </a>
+    <a href="{{ route('admin.laporan.index') }}" 
+       style="display: inline-flex; align-items: center; gap: 0.5rem; padding-bottom: 0.75rem; color: #cbd5f5; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: all 0.3s ease; border-bottom: 3px solid {{ request()->routeIs('admin.laporan.*') ? '#22d3ee' : 'transparent' }}; {{ request()->routeIs('admin.laporan.*') ? 'color: #22d3ee;' : '' }}">
+        📈 Laporan
+    </a>
 </div>
