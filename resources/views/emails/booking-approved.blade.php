@@ -60,39 +60,44 @@
         .info-section {
             background-color: #f9fafb;
             border-left: 4px solid #667eea;
-            padding: 20px;
+            padding: 25px;
             margin: 20px 0;
-            border-radius: 5px;
+            border-radius: 8px;
         }
         .info-section h3 {
-            margin: 0 0 15px 0;
+            margin: 0 0 20px 0;
             color: #667eea;
             font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
         .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e7eb;
-            align-items: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 0;
         }
         .info-row:last-child {
             border-bottom: none;
+            padding-bottom: 0;
         }
         .info-label {
             font-weight: 700;
             color: #475569;
             flex: 0 0 40%;
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
         }
         .info-value {
             color: #1e293b;
             flex: 1;
-            text-align: right;
+            text-align: left;
             font-size: 15px;
             font-weight: 500;
+            word-break: break-word;
         }
         .cta-button {
             display: inline-block;
@@ -156,32 +161,40 @@
             <div class="info-section">
                 <h3>📋 Detail Booking Anda</h3>
                 <div class="info-row">
-                    <div class="info-label">Nama Ruangan</div>
-                    <div class="info-value"><strong>{{ $ruangan->nama_ruangan }}</strong></div>
+                    <div>
+                        <div class="info-label">Nama Ruangan</div>
+                        <div class="info-value"><strong>{{ $ruangan->nama_ruangan }}</strong></div>
+                    </div>
+                    <div>
+                        <div class="info-label">Kode Ruangan</div>
+                        <div class="info-value">{{ $ruangan->kode }}</div>
+                    </div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">Kode Ruangan</div>
-                    <div class="info-value">{{ $ruangan->kode }}</div>
+                    <div>
+                        <div class="info-label">Kapasitas</div>
+                        <div class="info-value">{{ $ruangan->kapasitas }} orang</div>
+                    </div>
+                    <div>
+                        <div class="info-label">Tipe Ruangan</div>
+                        <div class="info-value">{{ ucfirst($ruangan->tipe) }}</div>
+                    </div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">Kapasitas</div>
-                    <div class="info-value">{{ $ruangan->kapasitas }} orang</div>
+                    <div>
+                        <div class="info-label">Tanggal Booking</div>
+                        <div class="info-value"><strong>{{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }}</strong></div>
+                    </div>
+                    <div>
+                        <div class="info-label">Jam Peminjaman</div>
+                        <div class="info-value"><strong>{{ $booking->jam_mulai }} - {{ $booking->jam_selesai }}</strong></div>
+                    </div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">Tipe Ruangan</div>
-                    <div class="info-value">{{ ucfirst($ruangan->tipe) }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Tanggal Booking</div>
-                    <div class="info-value"><strong>{{ \Carbon\Carbon::parse($booking->tanggal)->format('d M Y') }}</strong></div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Jam Peminjaman</div>
-                    <div class="info-value"><strong>{{ $booking->jam_mulai }} - {{ $booking->jam_selesai }}</strong></div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Keperluan</div>
-                    <div class="info-value">{{ $booking->keperluan }}</div>
+                    <div>
+                        <div class="info-label">Keperluan</div>
+                        <div class="info-value">{{ $booking->keperluan }}</div>
+                    </div>
                 </div>
             </div>
 
