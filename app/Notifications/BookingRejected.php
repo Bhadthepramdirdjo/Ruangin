@@ -24,7 +24,7 @@ class BookingRejected extends Notification
 
     public function toMail($notifiable)
     {
-        $bookingCreateUrl = 'https://ruanginapp.infinityfree.me/booking';
+        $bookingCreateUrl = 'https://ruanginapp.infinityfree.me';
         
         return (new MailMessage)
             ->subject('❌ Booking Ruangan Ditolak - Ruangin')

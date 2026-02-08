@@ -22,7 +22,7 @@ class BookingApproved extends Notification
 
     public function toMail($notifiable)
     {
-        $bookingUrl = 'https://ruanginapp.infinityfree.me/booking/' . $this->booking->id;
+        $bookingUrl = 'https://ruanginapp.infinityfree.me';
         
         return (new MailMessage)
             ->subject('✅ Booking Ruangan Disetujui - Ruangin')
