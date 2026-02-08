@@ -55,8 +55,9 @@
         margin-bottom: 2rem;
         display: flex;
         gap: 1rem;
-        align-items: end;
+        align-items: flex-end;
         flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     .form-group label {
@@ -103,6 +104,20 @@
     .btn-print:hover {
         background: rgba(148,163,184,0.2);
     }
+
+    .filter-controls {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .filter-controls-buttons {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+        margin-left: auto;
+    }
 </style>
 @endpush
 
@@ -119,32 +134,31 @@
 
     <!-- Filter Form -->
     <form action="{{ route('admin.laporan.index') }}" method="GET" class="filter-card">
-        <div class="form-group">
-            <label>Bulan</label>
-            <select name="bulan" class="form-control-dark">
-                @for($i = 1; $i <= 12; $i++)
-                    <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>
-                        {{ \Carbon\Carbon::create()->month($i)->locale('id')->isoFormat('MMMM') }}
-                    </option>
-                @endfor
-            </select>
+        <div class="filter-controls">
+            <div class="form-group">
+                <label>Bulan</label>
+                <select name="bulan" class="form-control-dark">
+                    @for($i = 1; $i <= 12; $i++)
+                        <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>
+                            {{ \Carbon\Carbon::create()->month($i)->locale('id')->isoFormat('MMMM') }}
+                        </option>
+                    @endfor
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tahun</label>
+                <select name="tahun" class="form-control-dark">
+                    @for($i = date('Y'); $i >= date('Y')-5; $i--)
+                        <option value="{{ $i }}" {{ $tahun == $i ? 'selected' : '' }}>{{ $i }}</option>
+                    @endfor
+                </select>
+            </div>
+            <button type="submit" class="btn-primary">Tampilkan</button>
         </div>
-        <div class="form-group">
-            <label>Tahun</label>
-            <select name="tahun" class="form-control-dark">
-                @for($i = date('Y'); $i >= date('Y')-5; $i--)
-                    <option value="{{ $i }}" {{ $tahun == $i ? 'selected' : '' }}>{{ $i }}</option>
-                @endfor
-            </select>
-        </div>
-        <button type="submit" class="btn-primary">Tampilkan</button>
-        
-        <div class="ms-auto d-flex gap-2">
+
+        <div class="filter-controls-buttons">
             <a href="{{ route('admin.laporan.cetak', ['bulan' => $bulan, 'tahun' => $tahun]) }}" target="_blank" class="btn-print">
                 🖨️ Cetak
-            </a>
-            <a href="{{ route('admin.laporan.pdf', ['bulan' => $bulan, 'tahun' => $tahun]) }}" class="btn-primary">
-                📄 PDF
             </a>
         </div>
     </form>
@@ -174,7 +188,7 @@
                         <small class="text-muted">{{ $bg->user->role }}</small>
                     </td>
                     <td>{{ $bg->keperluan }}</td>
-                    <td>{{ $bg->jam_mulai }} - {{ $bg->jam_selesai }}</td>
+                    <td>\n                        @php\n                            $jamMulai = \\Carbon\\Carbon::parse($bg->tanggal . ' ' . $bg->jam_mulai);\n                            $jamSelesai = $jamMulai->copy()->addMinutes($bg->jumlah_sks * 50);\n                        @endphp\n                        {{ $jamMulai->format('H:i') }} - {{ $jamSelesai->format('H:i') }} ({{ $bg->jumlah_sks }} SKS)\n                    </td>
                 </tr>
                 @endforeach
             </tbody>

@@ -93,6 +93,5 @@ Route::middleware(['auth', 'is.admin'])->prefix('admin')->group(function () {
     // Laporan
     Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('admin.laporan.index');
     Route::get('/laporan/cetak', [AdminLaporanController::class, 'cetak'])->name('admin.laporan.cetak');
-    Route::get('/laporan/pdf', [AdminLaporanController::class, 'downloadPdf'])->name('admin.laporan.pdf');
 });
 
